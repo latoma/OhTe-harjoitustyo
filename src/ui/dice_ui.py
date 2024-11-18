@@ -49,7 +49,7 @@ class DiceUI:
             if die.in_hold():
                 button.config(relief="sunken", bg="lightgray", text="Pidossa")
             else:
-                button.config(relief="raised", bg="SystemButtonFace", text="Pidä")
+                button.config(relief="raised", bg="#f0f0f0", text="Pidä")
 
     def setup_controls(self):
         self.throw_button = Button(

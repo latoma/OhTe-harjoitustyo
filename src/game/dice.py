@@ -7,6 +7,12 @@ class Dice:
     def __init__(self):
         self.__dice = [Die() for _ in range(5)]
 
+    def get_dice(self):
+        """
+        returns the list of dice
+        """
+        return self.__dice
+
     def roll_dice(self):
         """
         rolls all dice that are not in hold status
@@ -47,4 +53,8 @@ class Die:
         """
         toggles Die's hold status to the opposite
         """
+        if self.__value == 0:
+            return False
+        
         self.__in_hold = not self.__in_hold
+        return True

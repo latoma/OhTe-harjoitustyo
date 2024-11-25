@@ -4,6 +4,7 @@ class Dice:
     """
     This class is used to store and roll five dice
     """
+
     def __init__(self):
         self.__dice = [Die() for _ in range(5)]
 
@@ -21,10 +22,12 @@ class Dice:
             if not die.in_hold():
                 die.roll()
 
+
 class Die:
     """
     This class is used to store a die's value and hold status
     """
+
     def __init__(self):
         # value as an integer
         self.__value = 0
@@ -55,6 +58,6 @@ class Die:
         """
         if self.__value == 0:
             return False
-        
+
         self.__in_hold = not self.__in_hold
         return True

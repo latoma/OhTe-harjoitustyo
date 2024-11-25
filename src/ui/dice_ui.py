@@ -3,6 +3,7 @@ from tkinter import Label, PhotoImage, Button
 DICE_IMAGE_FILES = ["src/assets/Die_1.png", "src/assets/Die_2.png", "src/assets/Die_3.png",
                     "src/assets/Die_4.png", "src/assets/Die_5.png", "src/assets/Die_6.png"]
 
+
 class DiceUI:
     def __init__(self, root, dice):
         self.root = root
@@ -15,7 +16,7 @@ class DiceUI:
 
     def load_dice_images(self):
         return [PhotoImage(file=dice_image) for dice_image in DICE_IMAGE_FILES]
-    
+
     def create_dice_labels(self):
         dice_labels = []
         for column in range(5):

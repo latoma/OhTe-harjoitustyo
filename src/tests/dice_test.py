@@ -43,6 +43,14 @@ class TestDice(unittest.TestCase):
         self.assertEqual(dice.get_dice()[0].get_value(), held_values[0])
         self.assertEqual(dice.get_dice()[4].get_value(), held_values[1])
 
+    def test_get_values_returns_correct_values(self):
+        dice = Dice()
+        expected_values = [1, 2, 3, 4, 5]
+        for i, value in enumerate(expected_values):
+            dice.get_dice()[i]._Die__value = value
+
+        self.assertEqual(dice.get_values(), expected_values)
+
 
 if __name__ == '__main__':
     unittest.main()

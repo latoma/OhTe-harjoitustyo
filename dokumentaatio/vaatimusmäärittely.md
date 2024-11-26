@@ -10,10 +10,11 @@ Sovelluksella on vain yhdenlaisia käyttäjiä, pelaajia.
 Sovellus koostuu yhdestä näkymästä, jossa käyttäjä voi heittää noppaa ja tehdä toimintoja tuloskortiin. Myös pelin ohjeet ja highscore-taulu on näkyvillä
 
 ## Perusversion tarjoama toiminnallisuus
-- Pelaaja heittää nopat
-- Pelaaja valitsee nopat joita ei heitetä uudestaan
-- Pelaaja heittäää uudestaan ja valitsee taas joita ei heitetä
-- Kolmannen kierroksen (tai minkä tahansa kierroksen) jälkeen pelaaja valitsee pistetaulusta pisteytysvaihtoehdon.
+- Pelaaja heittää nopat (DONE)
+- Pelaaja valitsee nopat joita ei heitetä uudestaan (DONE)
+- Pelaaja heittäää uudestaan ja valitsee taas joita ei heitetä (DONE)
+- Pelaaja näkee pistetaulukossa pisteytysvaihtoehdot (DONE)
+- Kolmannen kierroksen (tai minkä tahansa kierroksen) jälkeen pelaaja valitsee pistetaulukosta pisteytysvaihtoehdon.
 - Pelin päätyttyä tulos merkitään highscore-taulukkoon.
 - Pelaaja voi aloittaa uuden pelin
 

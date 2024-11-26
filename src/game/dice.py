@@ -14,6 +14,12 @@ class Dice:
         """
         return self.__dice
 
+    def get_values(self):
+        """
+        returns a list of the dice values
+        """
+        return [die.get_value() for die in self.__dice]
+
     def roll_dice(self):
         """
         rolls all dice that are not in hold status

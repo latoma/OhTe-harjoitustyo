@@ -1,9 +1,4 @@
-LABEL_KEYS = [
-  'ones', 'twos', 'threes', 'fours', 'fives', 'sixes',
-  'a_pair', 'two_pairs', 'three_of_a_kind', 'four_of_a_kind',
-  'full_house', 'small_straight', 'large_straight', 'chance',
-  'yahtzee'
-]
+from constants.labels import LABEL_KEYS
 
 class Scoreboard:
   """
@@ -28,7 +23,7 @@ class Scoreboard:
       return sum(self.__scores.values())
 
   def get_possible_scores(self, dice):
-      dice_values = [die.get_value() for die in dice]
+      dice_values = dice.get_values()
       possible_scores = {}
       for key in LABEL_KEYS:
           if self.__scores[key] == None:
@@ -37,8 +32,8 @@ class Scoreboard:
 
   def calculate_score(self, label, dice_values):
       if label in ['ones', 'twos', 'threes', 'fours', 'fives', 'sixes']:
-          number = LABEL_KEYS.index(label)+1
-          return number * dice_values.count(number)
+          value = LABEL_KEYS.index(label)+1
+          return value * dice_values.count(value)
       elif label == 'a_pair':
           return self.calculate_n_of_a_kind_score(2, dice_values)
       elif label == 'two_pairs':
@@ -55,7 +50,7 @@ class Scoreboard:
           return self.calculate_large_straight_score(dice_values)
       elif label == 'chance':
           return sum(dice_values)
-      elif label == 'yahtzee':
+      elif label == 'yatzy':
           if dice_values.count(dice_values[0]) == 5:
               return 50
           return 0
@@ -64,15 +59,14 @@ class Scoreboard:
       score = 0
       for value in dice_values:
           if dice_values.count(value) >= n:
-              occurences = dice_values.count(value)
-              score = max(score, occurences * value)
+              score = max(score, n * value)
       return score
 
   def calculate_two_pairs_score(self, dice_values):
-      pairs = []
+      pairs = set()
       for value in dice_values:
           if 2 <= dice_values.count(value) <= 3:
-              pairs.append(value)
+              pairs.add(value)
       if len(pairs) == 2:
           return sum(pairs) * 2
       return 0

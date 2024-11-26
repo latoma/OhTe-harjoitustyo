@@ -1,21 +1,16 @@
 from tkinter import Label, Button, DISABLED, S
-
-LABEL_NAMES = [
-  'Ones (5)', 'Twos (10)', 'Threes (15)', 'Fours (20)', 'Fives (25)', 'Sixes (30)',
-  'A Pair (12)', 'Two pairs (22)', 'Three Of A Kind (18)', 'Four Of A Kind (24)',
-  'Full House (28)', 'Small Straight (15)', 'Large Straight (20)', 'Chance (30)',
-  'Yatzy (50)'
-]
+from constants.labels import LABEL_NAMES, LABEL_KEYS
 
 class ScoreboardUI:
-    def __init__(self, root):
+    def __init__(self, root, scoreboard):
         self.root = root
+        self.scoreboard = scoreboard
         self.score_labels = []
         self.select_buttons = []
         self.bonus_label = None
-        self.setup_scoreboard()
+        self.__setup_scoreboard()
 
-    def setup_scoreboard(self):
+    def __setup_scoreboard(self):
         row = 3
         for category in LABEL_NAMES:
             # Add bonus row after upper section
@@ -41,3 +36,15 @@ class ScoreboardUI:
             self.select_buttons.append(select_button)
 
             row += 1
+
+    def render_score_options(self, dice):
+        possible_scores = self.scoreboard.get_possible_scores(dice)
+        for i, key in enumerate(LABEL_KEYS):
+            if key in possible_scores:
+                self.score_labels[i].config(text=str(possible_scores[key]))
+                self.select_buttons[i].config(state="normal")
+            else:
+                self.score_labels[i].config(text="")
+                self.select_buttons[i].config(state=DISABLED)
+
+

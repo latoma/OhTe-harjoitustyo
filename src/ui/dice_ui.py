@@ -12,7 +12,6 @@ class DiceUI:
         self.empty_image = PhotoImage(width=64, height=64)
         self.dice_labels = self.create_dice_labels()
         self.hold_buttons = self.create_hold_buttons()
-        self.setup_controls()
 
     def load_dice_images(self):
         return [PhotoImage(file=dice_image) for dice_image in DICE_IMAGE_FILES]
@@ -51,14 +50,6 @@ class DiceUI:
                 button.config(relief="sunken", bg="lightgray", text="Pidossa")
             else:
                 button.config(relief="raised", bg="#f0f0f0", text="Pidä")
-
-    def setup_controls(self):
-        self.throw_button = Button(
-            self.root,
-            text="Heitä nopat",
-            command=self.throw_dice
-        )
-        self.throw_button.grid(row=2, column=2)
 
     def throw_dice(self):
         self.dice.roll_dice()

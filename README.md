@@ -41,7 +41,7 @@ Testikattavuusraportin voi generoida komennolla:
 poetry run invoke coverage-report
 ```
 
-Raportti generoituu _htmlcov_-hakemistoon.
+Raportti avautuu selaimeen automaattisesti.
 
 ### Pylint
 

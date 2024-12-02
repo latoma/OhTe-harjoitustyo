@@ -4,7 +4,6 @@ from ui.scoreboard_ui import ScoreboardUI
 from game.dice import Dice
 from game.scoreboard import Scoreboard
 
-
 class Yatzy:
     """A game of Yatzy is performed here"""
 
@@ -19,6 +18,10 @@ class Yatzy:
 
         self.__main_window.set_roll_command(self.roll_dice)
 
+        self.__main_window.set_select_commands(
+            lambda key: lambda: self.select_score(key)
+        )
+
     def start(self):
         self.__main_window.mainloop()
 
@@ -27,3 +30,8 @@ class Yatzy:
         self.__dice_ui.update_display()
         self.__scoreboard_ui.render_score_options(self.__dice)
 
+    def select_score(self, label):
+        score = self.__scoreboard.calculate_score(label, self.__dice.get_values())
+        self.__scoreboard.set_score(label, score)
+        self.__scoreboard_ui.update_score(label, score)
+        self.__scoreboard_ui.render_score_options(self.__dice)

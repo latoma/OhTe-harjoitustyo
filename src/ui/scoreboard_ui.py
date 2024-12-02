@@ -1,4 +1,4 @@
-from tkinter import Label, Button, DISABLED, S
+from tkinter import Label, DISABLED
 from constants.labels import LABEL_NAMES, LABEL_KEYS
 
 class ScoreboardUI:
@@ -6,7 +6,6 @@ class ScoreboardUI:
         self.root = root
         self.scoreboard = scoreboard
         self.score_labels = []
-        self.select_buttons = []
         self.bonus_label = None
         self.__setup_scoreboard()
 
@@ -25,26 +24,55 @@ class ScoreboardUI:
 
             # Score label
             score_label = Label(self.root, text="", width=10, relief="groove",
-                                state=DISABLED, bg="white")
+                              state=DISABLED, bg="white")
             score_label.grid(row=row, column=2, sticky="ew", padx=5)
             self.score_labels.append(score_label)
-
-            # Select button
-            select_button = Button(self.root, text="Valitse", state=DISABLED,
-                                    relief="flat", bg="white")
-            select_button.grid(row=row, column=3, padx=5)
-            self.select_buttons.append(select_button)
 
             row += 1
 
     def render_score_options(self, dice):
         possible_scores = self.scoreboard.get_possible_scores(dice)
+        # Go through all labels and render correct display
         for i, key in enumerate(LABEL_KEYS):
-            if key in possible_scores:
-                self.score_labels[i].config(text=str(possible_scores[key]))
-                self.select_buttons[i].config(state="normal")
-            else:
-                self.score_labels[i].config(text="")
-                self.select_buttons[i].config(state=DISABLED)
+            current_score = self.scoreboard.get_score(key)
+            if current_score is not None:
+                # Display an already selected score
+                self.score_labels[i].config(
+                    text=str(current_score),
+                    relief="sunken",
+                    fg="black",
+                    font=("TkDefaultFont", 10, "bold")
+                )
+                self.root.select_buttons[i].grid_remove()
 
+            # Display possible scores for others
+            elif key in possible_scores:
+                score = possible_scores[key]
+                self.score_labels[i].config(
+                    text=str(score),
+                    relief="groove"
+                )
+                # Selection button becomes active if score is possible
+                if score > 0:
+                    self.root.select_buttons[i].config(
+                        text="Select",
+                        state="normal",
+                        bg="green"
+                    )
+                # Disable button is non-visible if score is 0
+                else:
+                    self.root.select_buttons[i].config(
+                        text="",
+                        state=DISABLED,
+                        bg="white"
+                    )
 
+    def update_score(self, label, score):
+        index = LABEL_KEYS.index(label)
+        self.score_labels[index].config(
+            text=str(score),
+            relief="sunken"
+        )
+        self.root.select_buttons[index].config(state=DISABLED)
+        print('Score updated:', label, score)
+        print(self.scoreboard.get_scores())

@@ -1,4 +1,4 @@
-from tkinter import Tk, Button, DISABLED
+from tkinter import Tk, Button, Label, DISABLED
 from constants.labels import LABEL_NAMES, LABEL_KEYS
 
 class MainWindow(Tk):
@@ -6,11 +6,16 @@ class MainWindow(Tk):
         super().__init__()
         self.configure(bg="white")
         self.title("Yahtzee")
-        self.geometry("800x600")
+        self.geometry("900x700")
 
         #Roll button
         self.roll_button = Button(self, text="Heitä nopat")
-        self.roll_button.grid(row=2, column=2)
+        self.roll_button.grid(row=2, column=2, pady=10)
+
+        # Throws left label
+        self.throws_left_label = Label(self, text="Heittoja jäljellä: 3",
+                                  font=("TkDefaultFont", 12))
+        self.throws_left_label.grid(row=2, column=1, pady=10, padx=10)
 
         # Score selection buttons
         self.select_buttons = []
@@ -42,3 +47,6 @@ class MainWindow(Tk):
             self.select_buttons[i].configure(
                 command=command_factory(key)
             )
+
+    def update_throws_left(self, throws):
+        self.throws_left_label.config(text=f"Heittoja jäljellä: {throws}")

@@ -32,7 +32,7 @@ class DiceUI:
                 text="Pidä",
                 command=lambda i=column: self.toggle_hold(i),
                 width=6,
-                font=("Arial", 10)
+                font=("TkDefaultFont", 10)
             )
             button.grid(row=1, column=column, pady=(0, 10))
             hold_buttons.append(button)

@@ -23,12 +23,26 @@ class ScoreboardUI:
             Label(self.root, text=category).grid(row=row, column=1, sticky="w", padx=5)
 
             # Score label
-            score_label = Label(self.root, text="", width=10, relief="groove",
-                              state=DISABLED, bg="white")
-            score_label.grid(row=row, column=2, sticky="ew", padx=5)
+            score_label = Label(self.root, text="", relief="groove",
+                              state=DISABLED, bg="white", font=("TkDefaultFont", 12) )
+            score_label.grid(row=row, column=2, sticky="ew", padx=5, pady=2)
             self.score_labels.append(score_label)
 
             row += 1
+
+        # Total score label
+        Label(self.root, text="Kokonaistulos:",
+            font=("TkDefaultFont", 12, "bold")).grid(
+            row=row+1, column=1, sticky="w", padx=5
+        )
+
+        self.total_score_label = Label(self.root, text="-", relief="groove",
+                                    bg="white",font=("TkDefaultFont", 12, "bold")
+                                 )
+        self.total_score_label.grid(
+            row=row+1, column=2, sticky="ew",
+            padx=5
+        )
 
     def render_score_options(self, dice):
         possible_scores = self.scoreboard.get_possible_scores(dice)
@@ -41,7 +55,7 @@ class ScoreboardUI:
                     text=str(current_score),
                     relief="sunken",
                     fg="black",
-                    font=("TkDefaultFont", 10, "bold")
+                    font=("TkDefaultFont", 12, "bold")
                 )
                 self.root.select_buttons[i].grid_remove()
 
@@ -68,11 +82,16 @@ class ScoreboardUI:
                     )
 
     def update_score(self, label, score):
+        # Update score label
         index = LABEL_KEYS.index(label)
         self.score_labels[index].config(
             text=str(score),
             relief="sunken"
         )
+        # Disable selection button
         self.root.select_buttons[index].config(state=DISABLED)
         print('Score updated:', label, score)
         print(self.scoreboard.get_scores())
+        # Update total score
+        total = self.scoreboard.get_total_score()
+        self.total_score_label.config(text=str(total))

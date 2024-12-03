@@ -7,5 +7,10 @@
 | 18.11 |    2 |  Noppien viimeistely ja testaus
 | 25.11 |    5 |  Tulostaulukon logiikan toteutusta
 | 26.11 |    5 |  Tulostaulukon UI + testaaminen + dokumentaatio
+|  2.12 |    3 |  Tulostaulu UI nappien toiminnallisuuden toteutusta
+|  3.12 |    4 |  Kierroslogiikan toteutusta + testit
+
+**Yhteensä** **25** **tuntia**
+
 
 

@@ -8,6 +8,7 @@ class ScoreboardUI:
         self.score_labels = []
         self.bonus_label = None
         self.__setup_scoreboard()
+        self.selection_disabled = True
 
     def __setup_scoreboard(self):
         row = 3
@@ -50,7 +51,7 @@ class ScoreboardUI:
         for i, key in enumerate(LABEL_KEYS):
             current_score = self.scoreboard.get_score(key)
             if current_score is not None:
-                # Display an already selected score
+                # Display an existing score
                 self.score_labels[i].config(
                     text=str(current_score),
                     relief="sunken",
@@ -59,8 +60,8 @@ class ScoreboardUI:
                 )
                 self.root.select_buttons[i].grid_remove()
 
-            # Display possible scores for others
-            elif key in possible_scores:
+            # Display remaining possible scores
+            elif key in possible_scores and not self.selection_disabled:
                 score = possible_scores[key]
                 self.score_labels[i].config(
                     text=str(score),
@@ -95,3 +96,13 @@ class ScoreboardUI:
         # Update total score
         total = self.scoreboard.get_total_score()
         self.total_score_label.config(text=str(total))
+
+    def enable_select_buttons(self):
+        for button in self.root.select_buttons:
+            button.config(state="normal")
+        self.selection_disabled = False
+
+    def disable_select_buttons(self):
+        for button in self.root.select_buttons:
+            button.config(state=DISABLED, bg="white")
+        self.selection_disabled = True

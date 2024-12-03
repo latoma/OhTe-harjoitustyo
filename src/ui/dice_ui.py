@@ -63,3 +63,8 @@ class DiceUI:
                     image=self.dice_images[value-1],
                     bg='gray' if die.in_hold() else 'white'
                 )
+
+    def reset_holds(self):
+        self.dice.reset_holds()
+        self.update_hold_buttons()
+        self.update_display()

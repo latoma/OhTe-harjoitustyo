@@ -28,6 +28,10 @@ class Dice:
             if not die.in_hold():
                 die.roll()
 
+    def reset_holds(self):
+        for die in self.__dice:
+            die.reset_hold()
+
 
 class Die:
     """
@@ -67,3 +71,6 @@ class Die:
 
         self.__in_hold = not self.__in_hold
         return True
+
+    def reset_hold(self):
+        self.__in_hold = False

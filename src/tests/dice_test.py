@@ -51,6 +51,15 @@ class TestDice(unittest.TestCase):
 
         self.assertEqual(dice.get_values(), expected_values)
 
+    def test_reset_holds_resets_all_holds(self):
+        dice = Dice()
+        for die in dice.get_dice():
+            die.toggle_hold_status()
+
+        dice.reset_holds()
+
+        for die in dice.get_dice():
+            self.assertFalse(die.in_hold())
 
 if __name__ == '__main__':
     unittest.main()

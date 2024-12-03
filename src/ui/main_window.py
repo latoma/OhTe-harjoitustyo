@@ -9,7 +9,7 @@ class MainWindow(Tk):
         self.geometry("900x700")
 
         #Roll button
-        self.roll_button = Button(self, text="Heitä nopat")
+        self.roll_button = Button(self, text="Heitä nopat", font=("TkDefaultFont", 12))
         self.roll_button.grid(row=2, column=2, pady=10)
 
         # Throws left label

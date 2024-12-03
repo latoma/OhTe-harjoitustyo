@@ -35,6 +35,14 @@ class Yatzy:
             self.__main_window.update_throws_left(self.__throws_left)
             self.__scoreboard_ui.render_score_options(self.__dice)
 
+        if self.__throws_left == 0:
+            # Make roll button visibly disabled
+            self.__main_window.roll_button.config(
+                state="disabled",
+                relief="sunken",
+                bg="lightgray"
+            )
+
 
     def select_score(self, label):
         score = self.__scoreboard.calculate_score(label, self.__dice.get_values())
@@ -43,3 +51,10 @@ class Yatzy:
         self.__scoreboard_ui.render_score_options(self.__dice)
         self.__throws_left = 3
         self.__main_window.update_throws_left(self.__throws_left)
+        self.__dice_ui.reset_holds()
+
+        self.__main_window.roll_button.config(
+            state="normal",
+            relief="raised",
+            bg="SystemButtonFace"
+        )

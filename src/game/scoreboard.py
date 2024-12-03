@@ -33,29 +33,33 @@ class Scoreboard:
         return possible_scores
 
     def calculate_score(self, label, dice_values):
-        if label in ['ones', 'twos', 'threes', 'fours', 'fives', 'sixes']:
-            value = LABEL_KEYS.index(label)+1
-            return value * dice_values.count(value)
-        elif label == 'a_pair':
-            return self.calculate_n_of_a_kind_score(2, dice_values)
-        elif label == 'two_pairs':
-            return self.calculate_two_pairs_score(dice_values)
-        elif label == 'three_of_a_kind':
-            return self.calculate_n_of_a_kind_score(3, dice_values)
-        elif label == 'four_of_a_kind':
-            return self.calculate_n_of_a_kind_score(4, dice_values)
-        elif label == 'full_house':
-            return self.calculate_full_house_score(dice_values)
-        elif label == 'small_straight':
-            return self.calculate_small_straight_score(dice_values)
-        elif label == 'large_straight':
-            return self.calculate_large_straight_score(dice_values)
-        elif label == 'chance':
-            return sum(dice_values)
-        elif label == 'yatzy':
-            if dice_values.count(dice_values[0]) == 5:
-                return 50
-        return 0
+        score = 0
+        match label:
+            case 'ones' | 'twos' | 'threes' | 'fours' | 'fives' | 'sixes':
+                value = LABEL_KEYS.index(label) + 1
+                score = value * dice_values.count(value)
+            case 'a_pair':
+                score = self.calculate_n_of_a_kind_score(2, dice_values)
+            case 'two_pairs':
+                score = self.calculate_two_pairs_score(dice_values)
+            case 'three_of_a_kind':
+                score = self.calculate_n_of_a_kind_score(3, dice_values)
+            case 'four_of_a_kind':
+                score = self.calculate_n_of_a_kind_score(4, dice_values)
+            case 'full_house':
+                score = self.calculate_full_house_score(dice_values)
+            case 'small_straight':
+                score = self.calculate_small_straight_score(dice_values)
+            case 'large_straight':
+                score = self.calculate_large_straight_score(dice_values)
+            case 'chance':
+                score = sum(dice_values)
+            case 'yatzy':
+                if dice_values.count(dice_values[0]) == 5:
+                    score = 50
+            case _:
+                return 0
+        return score
 
     def calculate_n_of_a_kind_score(self, n, dice_values):
         score = 0

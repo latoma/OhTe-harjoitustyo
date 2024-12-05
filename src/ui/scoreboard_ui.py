@@ -1,8 +1,9 @@
-from tkinter import Label, DISABLED
+from tkinter import Label, DISABLED, Button
 from constants.labels import LABEL_NAMES, LABEL_KEYS
+from game.scoreboard import Scoreboard
 
 class ScoreboardUI:
-    def __init__(self, root, scoreboard):
+    def __init__(self, root, scoreboard: Scoreboard):
         self.root = root
         self.scoreboard = scoreboard
         self.score_labels = []
@@ -45,6 +46,19 @@ class ScoreboardUI:
             padx=5
         )
 
+        # Save score button (for testing purposes)
+        self.save_score_button = Button(
+            self.root,
+            text="Pisteytä",
+            state=DISABLED,
+            font=("TkDefaultFont", 12)
+        )
+        self.save_score_button.grid(
+            row=row+1, column=3,
+            padx=5, pady=5,
+            sticky="ew"
+        )
+
     def render_score_options(self, dice):
         possible_scores = self.scoreboard.get_possible_scores(dice)
         # Go through all labels and render correct display
@@ -70,7 +84,7 @@ class ScoreboardUI:
                 # Selection button becomes active if score is possible
                 if score > 0:
                     self.root.select_buttons[i].config(
-                        text="Select",
+                        text="Valitse",
                         state="normal",
                         bg="green"
                     )
@@ -91,11 +105,16 @@ class ScoreboardUI:
         )
         # Disable selection button
         self.root.select_buttons[index].config(state=DISABLED)
-        print('Score updated:', label, score)
-        print(self.scoreboard.get_scores())
+
         # Update total score
         total = self.scoreboard.get_total_score()
         self.total_score_label.config(text=str(total))
+        if total > 0:
+            self.save_score_button.config(state="normal")
+
+        # Check if enough points for bonus
+        if self.scoreboard.has_points_for_bonus():
+            self.bonus_label.config(text="+50", font=("TkDefaultFont", 12))
 
     def enable_select_buttons(self):
         for button in self.root.select_buttons:

@@ -96,3 +96,10 @@ class Scoreboard:
             if dice_values.count(i) != 1:
                 return 0
         return 20
+
+    def has_points_for_bonus(self):
+        upper_section_labels = LABEL_KEYS[:6] #ones, twos, threes, fours, fives, sixes
+        upper_section_score = sum(
+            score for label, score in self.__scores.items() if label in upper_section_labels and score is not None
+        )
+        return upper_section_score >= 63

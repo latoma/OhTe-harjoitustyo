@@ -30,6 +30,8 @@ class Yatzy:
     def roll_dice(self):
         if self.__throws_left == 3:
             self.__scoreboard_ui.enable_select_buttons()
+            self.__dice.unlock_dice()
+            self.__dice_ui.update_hold_buttons()
 
         if self.__throws_left > 0:
             self.__dice.roll_dice()
@@ -45,6 +47,9 @@ class Yatzy:
                 relief="sunken",
                 bg="lightgray"
             )
+            # Lock dice so they can't be held
+            self.__dice.lock_dice()
+            self.__dice_ui.update_hold_buttons()
 
 
     def select_score(self, label):
@@ -55,7 +60,7 @@ class Yatzy:
         self.__scoreboard_ui.render_score_options(self.__dice)
         self.__throws_left = 3
         self.__main_window.update_throws_left(self.__throws_left)
-        self.__dice_ui.reset_holds()
+        self.__dice_ui.prepare_dice_for_next_round()
 
         self.__main_window.roll_button.config(
             state="normal",

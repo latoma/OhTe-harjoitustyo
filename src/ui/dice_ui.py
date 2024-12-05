@@ -1,11 +1,12 @@
 from tkinter import Label, PhotoImage, Button
+from game.dice import Dice
 
 DICE_IMAGE_FILES = ["src/assets/Die_1.png", "src/assets/Die_2.png", "src/assets/Die_3.png",
                     "src/assets/Die_4.png", "src/assets/Die_5.png", "src/assets/Die_6.png"]
 
 
 class DiceUI:
-    def __init__(self, root, dice):
+    def __init__(self, root, dice: Dice):
         self.root = root
         self.dice = dice
         self.dice_images = self.load_dice_images()
@@ -51,6 +52,11 @@ class DiceUI:
             else:
                 button.config(relief="raised", bg="#f0f0f0", text="Pidä")
 
+            if die.is_locked():
+                button.config(state="disabled")
+            else:
+                button.config(state="normal")
+
     def throw_dice(self):
         self.dice.roll_dice()
         self.update_display()
@@ -66,5 +72,14 @@ class DiceUI:
 
     def reset_holds(self):
         self.dice.reset_holds()
+        self.update_hold_buttons()
+        self.update_display()
+
+    def prepare_dice_for_next_round(self):
+        """
+        Resets holds, locks dice holding and updates dice ui
+        """
+        self.reset_holds()
+        self.dice.lock_dice()
         self.update_hold_buttons()
         self.update_display()

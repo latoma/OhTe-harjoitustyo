@@ -3,12 +3,16 @@ from ui.dice_ui import DiceUI
 from ui.scoreboard_ui import ScoreboardUI
 from game.dice import Dice
 from game.scoreboard import Scoreboard
+from repositories.game_repository import GameRepository
+from database_connection import get_database_connection
 
 class Yatzy:
     """A game of Yatzy is performed here"""
 
     def __init__(self, test_mode=False):
-        self.__main_window = MainWindow()
+        self.__test_mode = test_mode
+        self.__main_window = MainWindow(test_mode)
+        self.__game_repository = GameRepository(get_database_connection())
 
         self.__dice = Dice()
         self.__dice_ui = DiceUI(self.__main_window, self.__dice)
@@ -18,8 +22,6 @@ class Yatzy:
 
         self.__main_window.set_roll_command(self.roll_dice)
 
-        self.__test_mode = test_mode
-
         self.__throws_left = 3
 
         self.__round = 1
@@ -27,6 +29,11 @@ class Yatzy:
         self.__main_window.set_select_commands(
             lambda key: lambda: self.select_score(key)
         )
+
+        if test_mode:
+            self.__main_window.set_save_score_command(
+                lambda: self.__game_repository.save_game(self.__scoreboard)
+            )
 
     def start(self):
         self.__main_window.mainloop()
@@ -77,3 +84,7 @@ class Yatzy:
             relief="raised",
         )
         self.__round += 1
+
+        # Check if game is over
+        if self.__round > 15:
+            self.__game_repository.save_game(self.__scoreboard)

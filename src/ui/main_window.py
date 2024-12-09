@@ -2,7 +2,7 @@ from tkinter import Tk, Button, Label, DISABLED
 from constants.labels import LABEL_NAMES, LABEL_KEYS
 
 class MainWindow(Tk):
-    def __init__(self):
+    def __init__(self, test_mode=False):
         super().__init__()
         self.configure(bg="white")
         self.title("Yahtzee")
@@ -20,6 +20,18 @@ class MainWindow(Tk):
         # Score selection buttons
         self.select_buttons = []
         self.create_score_buttons()
+
+        if test_mode:
+            self.save_score_button = Button(
+                self,
+                text="Pisteytä",
+                font=("TkDefaultFont", 12),
+            )
+            self.save_score_button.grid(
+                row=20, column=3,
+                padx=5, pady=5,
+                sticky="ew"
+            )
 
     def create_score_buttons(self):
         row = 3
@@ -47,6 +59,9 @@ class MainWindow(Tk):
             self.select_buttons[i].configure(
                 command=command_factory(key)
             )
+
+    def set_save_score_command(self, command):
+        self.save_score_button.config(command=command)
 
     def update_throws_left(self, throws):
         self.throws_left_label.config(text=f"Heittoja jäljellä: {throws}")

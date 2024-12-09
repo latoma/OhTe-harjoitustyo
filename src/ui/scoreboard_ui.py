@@ -47,20 +47,6 @@ class ScoreboardUI:
             padx=5
         )
 
-        # Save score button (only in test mode)
-        if self.test_mode:
-            self.save_score_button = Button(
-                self.root,
-                text="Pisteytä",
-                state=DISABLED,
-                font=("TkDefaultFont", 12)
-            )
-            self.save_score_button.grid(
-                row=row+1, column=3,
-                padx=5, pady=5,
-                sticky="ew"
-            )
-
     def render_score_options(self, dice, last_throw=False):
         possible_scores = self.scoreboard.get_possible_scores(dice)
 
@@ -118,8 +104,6 @@ class ScoreboardUI:
         # Update total score
         total = self.scoreboard.get_total_score()
         self.total_score_label.config(text=str(total))
-        if self.test_mode and total > 0:
-            self.save_score_button.config(state="normal")
 
         # Check if enough points for bonus
         if self.scoreboard.has_points_for_bonus():

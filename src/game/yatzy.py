@@ -7,18 +7,22 @@ from game.scoreboard import Scoreboard
 class Yatzy:
     """A game of Yatzy is performed here"""
 
-    def __init__(self):
+    def __init__(self, test_mode=False):
         self.__main_window = MainWindow()
 
         self.__dice = Dice()
         self.__dice_ui = DiceUI(self.__main_window, self.__dice)
 
         self.__scoreboard = Scoreboard()
-        self.__scoreboard_ui = ScoreboardUI(self.__main_window, self.__scoreboard)
+        self.__scoreboard_ui = ScoreboardUI(self.__main_window, self.__scoreboard, test_mode)
 
         self.__main_window.set_roll_command(self.roll_dice)
 
+        self.__test_mode = test_mode
+
         self.__throws_left = 3
+
+        self.__round = 1
 
         self.__main_window.set_select_commands(
             lambda key: lambda: self.select_score(key)
@@ -28,7 +32,7 @@ class Yatzy:
         self.__main_window.mainloop()
 
     def roll_dice(self):
-        if self.__throws_left == 3:
+        if self.__throws_left >= 3:
             self.__scoreboard_ui.enable_select_buttons()
             self.__dice.unlock_dice()
             self.__dice_ui.update_hold_buttons()
@@ -36,9 +40,15 @@ class Yatzy:
         if self.__throws_left > 0:
             self.__dice.roll_dice()
             self.__dice_ui.update_display()
+
             self.__throws_left -= 1
+            if self.__test_mode: self.__throws_left += 1
             self.__main_window.update_throws_left(self.__throws_left)
-            self.__scoreboard_ui.render_score_options(self.__dice)
+
+            self.__scoreboard_ui.render_score_options(
+                self.__dice,
+                last_throw=self.__throws_left == 0
+                )
 
         if self.__throws_left == 0:
             # Make roll button visibly disabled
@@ -66,3 +76,4 @@ class Yatzy:
             state="normal",
             relief="raised",
         )
+        self.__round += 1

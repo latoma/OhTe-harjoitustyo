@@ -7,6 +7,11 @@ def start(ctx):
     ctx.run("python src/main.py")
 
 @task
+def start_test_mode(ctx):
+    """Start game in test mode"""
+    ctx.run("python src/main.py --test-mode")
+
+@task
 def test(ctx):
     ctx.run("pytest src")
 

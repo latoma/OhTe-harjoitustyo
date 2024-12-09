@@ -3,13 +3,14 @@ from constants.labels import LABEL_NAMES, LABEL_KEYS
 from game.scoreboard import Scoreboard
 
 class ScoreboardUI:
-    def __init__(self, root, scoreboard: Scoreboard):
+    def __init__(self, root, scoreboard: Scoreboard, test_mode=False):
         self.root = root
         self.scoreboard = scoreboard
         self.score_labels = []
         self.bonus_label = None
-        self.__setup_scoreboard()
+        self.test_mode = test_mode
         self.selection_disabled = True
+        self.__setup_scoreboard()
 
     def __setup_scoreboard(self):
         row = 3
@@ -46,21 +47,23 @@ class ScoreboardUI:
             padx=5
         )
 
-        # Save score button (for testing purposes)
-        self.save_score_button = Button(
-            self.root,
-            text="Pisteytä",
-            state=DISABLED,
-            font=("TkDefaultFont", 12)
-        )
-        self.save_score_button.grid(
-            row=row+1, column=3,
-            padx=5, pady=5,
-            sticky="ew"
-        )
+        # Save score button (only in test mode)
+        if self.test_mode:
+            self.save_score_button = Button(
+                self.root,
+                text="Pisteytä",
+                state=DISABLED,
+                font=("TkDefaultFont", 12)
+            )
+            self.save_score_button.grid(
+                row=row+1, column=3,
+                padx=5, pady=5,
+                sticky="ew"
+            )
 
-    def render_score_options(self, dice):
+    def render_score_options(self, dice, last_throw=False):
         possible_scores = self.scoreboard.get_possible_scores(dice)
+
         # Go through all labels and render correct display
         for i, key in enumerate(LABEL_KEYS):
             current_score = self.scoreboard.get_score(key)
@@ -88,7 +91,13 @@ class ScoreboardUI:
                         state="normal",
                         bg="green"
                     )
-                # Disable button is non-visible if score is 0
+                elif last_throw:
+                    self.root.select_buttons[i].config(
+                        text="Valitse",
+                        state="normal",
+                        bg="red"
+                    )
+                # Hide selection button if score is 0
                 else:
                     self.root.select_buttons[i].config(
                         text="",
@@ -109,7 +118,7 @@ class ScoreboardUI:
         # Update total score
         total = self.scoreboard.get_total_score()
         self.total_score_label.config(text=str(total))
-        if total > 0:
+        if self.test_mode and total > 0:
             self.save_score_button.config(state="normal")
 
         # Check if enough points for bonus

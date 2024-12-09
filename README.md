@@ -2,7 +2,7 @@
 
 ### Aineopintojen harjoitustyö: ohjelmistotekniikka, syksy 2024
 
-Kyseessä on tietokoneella pelattava yksinpeli-versio tunnetusta-Yatzy noppapelistä.
+Kyseessä on tietokoneella pelattava yksinpeli versio tunnetusta Yatzy-noppapelistä.
 
 
 

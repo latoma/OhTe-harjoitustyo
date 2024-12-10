@@ -20,23 +20,24 @@ Kyseessä on tietokoneella pelattava yksinpeli versio tunnetusta Yatzy-noppapeli
 poetry install
 ```
 
-2. Käynnistä sovellus komennolla:
+2. Alusta tietokanta
+   
+```bash
+python3 ./src/initialize_database.py
+```
+
+3. Käynnistä sovellus komennolla:
 
 ```bash
 poetry run invoke start
 ```
 
-3. Sovelluksen voi myös käynnistää "testi-tilassa" seuraavasti:
+4. Sovelluksen voi myös käynnistää "testi-tilassa" seuraavasti:
 
 ```bash
 poetry run invoke start-test-mode
 ```
 
-4. Sovelluksen leaderboards-taulukon voi tyhjentää ajamalla (projektin juuressa):
-
-```bash
-python3 ./src/initialize_database.py
-```
 
 ### Testaus
 

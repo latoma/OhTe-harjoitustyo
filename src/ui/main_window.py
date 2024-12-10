@@ -51,6 +51,25 @@ class MainWindow(Tk):
             self.select_buttons.append(select_button)
             row += 1
 
+    def create_new_game_button(self, command):
+        self.new_game_button = Button(
+            self,
+            text="Uusi peli",
+            font=("TkDefaultFont", 12),
+            bg="green",
+            command=command
+        )
+        self.new_game_button.grid(
+            row=20, column=3,
+            padx=5, pady=5,
+            sticky="ew"
+        )
+
+    def remove_new_game_button(self):
+        if hasattr(self, 'new_game_button'):
+            self.new_game_button.destroy()
+            del self.new_game_button
+
     def set_roll_command(self, command):
         self.roll_button.configure(command=command)
 

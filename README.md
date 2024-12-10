@@ -7,11 +7,12 @@ Kyseessä on tietokoneella pelattava yksinpeli versio tunnetusta Yatzy-noppapeli
 
 
 ### Dokumentaatio
-- [Vaatimusmäärittely](./dokumentaatio/vaatimusmäärittely.md)
-- [Changelog](./dokumentaatio/changelog.md)
 - [Arkkitehtuuri](./dokumentaatio/arkkitehtuuri.md)
+- [Vaatimusmäärittely](./dokumentaatio/vaatimusmäärittely.md)
+- [Työaikakirjanpito](./dokumentaatio/tuntikirjanpito.md)
+- [Changelog](./dokumentaatio/changelog.md)
 
-## Käyttäminen
+## Asennus ja Käyttö
 
 1. Asenna riippuvuudet komennolla:
 

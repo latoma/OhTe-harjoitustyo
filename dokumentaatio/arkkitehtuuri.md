@@ -2,32 +2,56 @@
 
 ```mermaid
 classDiagram
+    Yatzy "1" --> "1" Dice
+    Yatzy "1" --> "1" Scoreboard
+    Yatzy "1" --> "1" GameRepository
+    Yatzy "1" --> "1" ScoreboardRepository
+
+    Dice "1" --> "5" Die
+
     class Yatzy {
         -dice: Dice
         -scoreboard: Scoreboard
-        +start()
+        -game_repository: GameRepository
+        -scoreboard_repository: ScoreboardRepository
         +roll_dice()
+        +select_score()
+        +end_game()
+        +start_new_game()
     }
+
     class Dice {
         -dice: Die[]
         +roll_dice()
         +get_values()
     }
+
     class Die {
         -value: int
         -in_hold: bool
         +roll()
-        +toggle_hold_status()
-    }
-    class Scoreboard {
-        -scores: dict
-        +get_possible_scores()
-        +calculate_score()
+        +toggle_hold()
     }
 
-    Yatzy --> Dice : has
-    Yatzy --> Scoreboard : has
-    Dice --> Die : has 5
+    class Scoreboard {
+        -scores: dict
+        +calculate_score()
+        +set_score()
+        +get_total_score()
+    }
+
+    class GameRepository {
+        -connection
+        +create()
+        +find_all()
+    }
+
+    class ScoreboardRepository {
+        -connection
+        +create()
+        +find_by_game_id()
+    }
+
 ```
 
 ## Nopan heitto ja tuloksen valitseminen

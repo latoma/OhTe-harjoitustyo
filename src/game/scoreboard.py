@@ -103,3 +103,6 @@ class Scoreboard:
             score for label, score in self.__scores.items() if label in upper_section_labels and score is not None
         )
         return upper_section_score >= 63
+
+    def get_scores_as_list(self):
+        return [self.__scores[label] for label in LABEL_KEYS]

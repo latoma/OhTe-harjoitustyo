@@ -1,7 +1,7 @@
-
 class GameRepository:
-    def __init__(self, connection):
+    def __init__(self, connection, scoreboard_repository):
         self._connection = connection
+        self._scoreboard_repository = scoreboard_repository
 
     def find_all(self):
         cursor = self._connection.cursor()
@@ -9,15 +9,11 @@ class GameRepository:
         return cursor.fetchall()
 
     def create(self, total_score):
+        """Save game data and return game_id"""
         cursor = self._connection.cursor()
         cursor.execute(
             "INSERT INTO games (total_score) VALUES (?)",
-            (total_score, )
+            (total_score,)
         )
         self._connection.commit()
-        return True
-
-    def save_game(self, scoreboard):
-        """Save game's total score to database"""
-        total_score = scoreboard.get_total_score()
-        return self.create(total_score)
+        return cursor.lastrowid # Return the id of the last row inserted

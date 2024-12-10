@@ -61,5 +61,14 @@ class TestDice(unittest.TestCase):
         for die in dice.get_dice():
             self.assertFalse(die.in_hold())
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_lock_dice_locks_all_dice(self):
+        dice = Dice()
+        dice.lock_dice()
+        for die in dice.get_dice():
+            self.assertTrue(die.is_locked())
+
+    def test_unlock_dice_unlocks_all_dice(self):
+        dice = Dice()
+        dice.unlock_dice()
+        for die in dice.get_dice():
+            self.assertFalse(die.is_locked())

@@ -10,9 +10,10 @@
 |  2.12 |    3 |  Tulostaulu UI nappien toiminnallisuuden toteutusta
 |  3.12 |    4 |  Kierroslogiikan toteutusta + testit
 |  5.12 |    2 |  Pelilogiikan yksityikohtien hiomista (bonuspisteet, noppien väärinkäytön esto)
-|  9.12 |    4 | Test moden toteutus, tietokannan käyttöönoton alustus.
+|  9.12 |    4 |  Test moden toteutus, tietokannan käyttöönoton alustus.
+| 10.12 |    7 |  Pelin lopetus ja uuden aloittaminen, sekä Leaderboard UI:n ja scoreboard repon toteutus
 
-**Yhteensä** **31** **tuntia**
+**Yhteensä** **38** **tuntia**
 
 
 

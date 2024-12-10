@@ -1,22 +1,27 @@
 from ui.main_window import MainWindow
 from ui.dice_ui import DiceUI
 from ui.scoreboard_ui import ScoreboardUI
+from ui.leaderboard_ui import LeaderboardUI
 from game.dice import Dice
 from game.scoreboard import Scoreboard
 from repositories.game_repository import GameRepository
 from repositories.scoreboard_repository import ScoreboardRepository
 from database_connection import get_database_connection
-from ui.leaderboard_ui import LeaderboardUI
 
 class Yatzy:
-    """A game of Yatzy is performed here"""
+    """ Pääluokka, joka hallinnoi pelin kulkua ja käyttöliittymää """
 
     def __init__(self, test_mode=False):
+        """ Konstruktori, alustaa pelin ja käyttöliittymän
+
+        Args:
+            test_mode: testitila käytössä
+        """
         self.__test_mode = test_mode
         self.__main_window = MainWindow(test_mode)
         db_connection = get_database_connection()
         self.__scoreboard_repository = ScoreboardRepository(db_connection)
-        self.__game_repository = GameRepository(db_connection, self.__scoreboard_repository)
+        self.__game_repository = GameRepository(db_connection)
 
         self.__leaderboard_ui = LeaderboardUI(
             self.__main_window,
@@ -49,7 +54,8 @@ class Yatzy:
         self.__main_window.mainloop()
 
     def roll_dice(self):
-        if self.__throws_left >= 3:
+        """ Heittää nopat ja päivittää käyttöliittymän """
+        if self.__throws_left == 3:
             self.__scoreboard_ui.enable_select_buttons()
             self.__dice.unlock_dice()
             self.__dice_ui.update_hold_buttons()
@@ -59,7 +65,8 @@ class Yatzy:
             self.__dice_ui.update_display()
 
             self.__throws_left -= 1
-            if self.__test_mode: self.__throws_left += 1
+            if self.__test_mode:
+                self.__throws_left += 1
             self.__main_window.update_throws_left(self.__throws_left)
 
             self.__scoreboard_ui.render_score_options(
@@ -80,6 +87,11 @@ class Yatzy:
 
 
     def select_score(self, label):
+        """ Valitsee pistemäärän ja päivittää pistetaulun
+
+        Args:
+            label: valittu kategoria
+        """
         score = self.__scoreboard.calculate_score(label, self.__dice.get_values())
         self.__scoreboard.set_score(label, score)
         self.__scoreboard_ui.disable_select_buttons()
@@ -100,7 +112,7 @@ class Yatzy:
             self.end_game()
 
     def end_game(self):
-        """Save game and scoreboard data separately when game ends"""
+        """ Lopettaa pelin ja tallentaa tuloksen tietokantaan """
         total_score = self.__scoreboard.get_total_score()
 
         game_id = self.__game_repository.create(total_score)
@@ -112,6 +124,7 @@ class Yatzy:
 
 
     def start_new_game(self):
+        """ Aloittaa uuden pelin """
         self.__main_window.remove_new_game_button()
 
         self.__scoreboard = Scoreboard()

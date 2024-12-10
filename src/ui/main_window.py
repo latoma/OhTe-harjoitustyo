@@ -2,6 +2,14 @@ from tkinter import Tk, Button, Label, DISABLED
 from constants.labels import LABEL_NAMES, LABEL_KEYS
 
 class MainWindow(Tk):
+    """ Luokka joka vastaa pelin päänäkymästä
+
+    Attributes:
+        roll_button: heitä-nappula
+        throws_left_label: jäljellä olevien heittojen label
+        select_buttons: lista pistevalintojen nappuloista
+        save_score_button: pisteytä-nappula
+        """
     def __init__(self, test_mode=False):
         super().__init__()
         self.configure(bg="white")
@@ -34,6 +42,7 @@ class MainWindow(Tk):
             )
 
     def create_score_buttons(self):
+        """ Luo pistevalintojen nappulat """
         row = 3
         for _ in LABEL_NAMES:
             # Skip bonus row
@@ -52,6 +61,11 @@ class MainWindow(Tk):
             row += 1
 
     def create_new_game_button(self, command):
+        """ Luo uusi peli -nappula
+
+        Args:
+            command: funktio (joka käynnistää uuden pelin)
+        """
         self.new_game_button = Button(
             self,
             text="Uusi peli",
@@ -74,6 +88,11 @@ class MainWindow(Tk):
         self.roll_button.configure(command=command)
 
     def set_select_commands(self, command_factory):
+        """ Asettaa pistevalintojen komennot
+
+        Args:
+            command_factory: funktio joka palauttaa komennon
+        """
         for i, key in enumerate(LABEL_KEYS):
             self.select_buttons[i].configure(
                 command=command_factory(key)

@@ -3,7 +3,24 @@ from constants.labels import LABEL_NAMES
 
 # LLM used to make this
 class LeaderboardUI:
+    """ Class for the leaderboard UI
+
+    Attributes:
+        root: main window
+        game_repository: game repository
+        scoreboard_repository: scoreboard repository
+        score_frame: frame for the leaderboard
+        score_labels: list of labels for the leaderboard
+        score_buttons: list of buttons for the leaderboard
+    """
     def __init__(self, root, game_repository, scoreboard_repository):
+        """ Constructor for the LeaderboardUI class
+
+        Args:
+            root: main window
+            game_repository: game repository
+            scoreboard_repository: scoreboard repository
+            """
         self.root = root
         self.game_repository = game_repository
         self.scoreboard_repository = scoreboard_repository
@@ -32,6 +49,11 @@ class LeaderboardUI:
         self.update_scores()
 
     def show_game_details(self, game_id):
+      """ Näyttää pelin tulokset erillisessä ikkunassa
+
+      Args:
+          game_id: pelin id
+      """
       scoreboard_data = self.scoreboard_repository.find_by_game_id(game_id)
       if not scoreboard_data:
           print("No scoreboard data found for game", game_id)
@@ -147,6 +169,7 @@ class LeaderboardUI:
       ).grid(row=row, column=1, padx=5, pady=10)
 
     def update_scores(self):
+        """ Päivittää tulostaulun """
         for label in self.score_labels:
             label.destroy()
         for button in self.score_buttons:

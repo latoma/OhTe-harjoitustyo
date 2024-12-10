@@ -25,6 +25,18 @@ poetry install
 poetry run invoke start
 ```
 
+3. Sovelluksen voi myös käynnistää "testi-tilassa" seuraavasti:
+
+```bash
+poetry run invoke start-test-mode
+```
+
+4. Sovelluksen leaderboards-taulukon voi tyhjentää ajamalla (projektin juuressa):
+
+```bash
+python3 ./src/initialize_database.py
+```
+
 ### Testaus
 
 Testit suoritetaan komennolla:

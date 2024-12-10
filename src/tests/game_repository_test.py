@@ -11,8 +11,7 @@ class TestGameRepository(unittest.TestCase):
         self.mock_scoreboard_repository = Mock()
 
         self.game_repository = GameRepository(
-            self.mock_connection,
-            self.mock_scoreboard_repository
+            self.mock_connection
         )
 
     def test_find_all(self):

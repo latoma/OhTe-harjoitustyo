@@ -2,7 +2,10 @@ from constants.labels import LABEL_KEYS
 
 class Scoreboard:
     """
-    A class to keep track of scores in a Yatzy game.
+    Luokka joka vastaa pelin pisteiden laskemisesta ja tallentamisesta
+
+    Attributes:
+        __scores: sanakirja joka sisältää pistetulokset eri kategorioille
     """
     def __init__(self):
         self.__scores = {label: None for label in LABEL_KEYS}
@@ -33,6 +36,12 @@ class Scoreboard:
         return possible_scores
 
     def calculate_score(self, label, dice_values):
+        """ Laskee pistemäärän annetulle kategorialle ja nopan silmälukuja vastaaville arvoille
+
+        Args:
+            label: kategoria
+            dice_values: nopan silmälukujen arvot
+        """
         score = 0
         match label:
             case 'ones' | 'twos' | 'threes' | 'fours' | 'fives' | 'sixes':
@@ -100,7 +109,8 @@ class Scoreboard:
     def has_points_for_bonus(self):
         upper_section_labels = LABEL_KEYS[:6] #ones, twos, threes, fours, fives, sixes
         upper_section_score = sum(
-            score for label, score in self.__scores.items() if label in upper_section_labels and score is not None
+            score for label, score in self.__scores.items()
+            if label in upper_section_labels and score is not None
         )
         return upper_section_score >= 63
 

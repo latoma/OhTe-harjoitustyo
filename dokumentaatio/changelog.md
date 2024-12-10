@@ -12,3 +12,9 @@
 - Toteutettu pisteytysvaihtoehdon valitsemisominaisuus
 - Toteutettu osa kierroksen perusrakenteesta (3 heittoa per kierros, heitot palautuvat kun nopat pisteytetään, noppien pito-status resetoituu, vain yksi tuloksen valinta per kierros)
 
+## Viikko 6
+- Toteutettu start-test-mode käynnistys joka lisää peliin kokeilemista helpottavia ominaisuuksia
+- Lisätty komponentit tietokannan alustamista varten
+- Tehty repositorio-tiedostot pelien ja sen tulosten tallentamiseksi
+- Toteutettu pelin lopetus ja uuden aloittaminen
+- Leaderboard UI:n toteutus, jossa näkyy top 10 tulokset ja niiden yksityiskohdat voi avata uudelle ikkunalle.

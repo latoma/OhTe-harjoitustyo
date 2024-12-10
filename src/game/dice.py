@@ -2,7 +2,10 @@ import random
 
 class Dice:
     """
-    This class is used to store and roll five dice
+    Tämä luokka on tarkoitettu viiden nopan säilyttämiseen ja heittämiseen
+
+    Attributes:
+        __dice: lista viidestä nopasta
     """
 
     def __init__(self):
@@ -10,19 +13,19 @@ class Dice:
 
     def get_dice(self):
         """
-        returns the list of dice
+        palauttaa listan nopista
         """
         return self.__dice
 
     def get_values(self):
         """
-        returns a list of the dice values
+        palauttaa listan noppien arvoista
         """
         return [die.get_value() for die in self.__dice]
 
     def roll_dice(self):
         """
-        rolls all dice that are not in hold status
+        heittää kaikki nopat, jotka eivät ole pidossa
         """
         for die in self.__dice:
             if not die.in_hold():
@@ -30,21 +33,21 @@ class Dice:
 
     def reset_holds(self):
         """
-        resets all dice hold status
+        nollaa kaikkien noppien pito-tilan
         """
         for die in self.__dice:
             die.reset_hold()
 
     def lock_dice(self):
         """
-        locks all dice so they can't be held
+        lukitsee kaikki nopat niin, että niitä ei voi pitää
         """
         for die in self.__dice:
             die.lock()
 
     def unlock_dice(self):
         """
-        unlocks all dice so they can be held
+        avaa kaikkien noppien lukituksen niin, että niitä voi pitää
         """
         for die in self.__dice:
             die.unlock()
@@ -52,7 +55,7 @@ class Dice:
 
 class Die:
     """
-    This class is used to store a die's value and hold status
+    Tämä luokka on tarkoitettu nopan arvon ja pito-tilan säilyttämiseen
     """
 
     def __init__(self):
@@ -62,25 +65,25 @@ class Die:
 
     def roll(self):
         """
-        'rolls the die', meaning it sets a new random dice value
+        'heittää nopan', eli asettaa uuden satunnaisen nopan arvon
         """
         self.__value = random.randint(1, 6)
 
     def get_value(self):
         """
-        returns the die's value
+        palauttaa nopan arvon
         """
         return self.__value
 
     def in_hold(self):
         """
-        returns the die's hold status
+        palauttaa nopan pito-tilan
         """
         return self.__in_hold
 
     def toggle_hold_status(self):
         """
-        toggles Die's hold status to the opposite
+        vaihtaa nopan pito-tilan vastakkaiseksi
         """
         if self.__value == 0:
             return False
@@ -90,24 +93,24 @@ class Die:
 
     def reset_hold(self):
         """
-        resets the die's hold status
+        nollaa nopan pito-tilan
         """
         self.__in_hold = False
 
     def lock(self):
         """
-        locks the die so it can't be held
+        lukitsee nopan niin, ettei sitä voi pitää
         """
         self.__locked = True
 
     def unlock(self):
         """
-        unlocks the die so it can be held
+        avaa nopan lukituksen niin, että sitä voi pitää
         """
         self.__locked = False
 
     def is_locked(self):
         """
-        returns the die's lock status
+        palauttaa nopan lukitus-tilan
         """
         return self.__locked

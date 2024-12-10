@@ -3,7 +3,24 @@ from constants.labels import LABEL_NAMES, LABEL_KEYS
 from game.scoreboard import Scoreboard
 
 class ScoreboardUI:
+    """ Luokka joka vastaa tulostaulun käyttöliittymästä
+
+    Attributes:
+        root: pääikkuna
+        scoreboard: pistetaulukko
+        score_labels: lista pistetulosten label
+        bonus_label: bonuspisteiden label
+        test_mode: testitila
+        selection_disabled: valintojen estäminen
+    """
     def __init__(self, root, scoreboard: Scoreboard, test_mode=False):
+        """ Konstruktori, alustaa tulostaulun käyttöliittymän
+
+        Args:
+            root: pääikkuna
+            scoreboard: pistetaulukko
+            test_mode: testitila
+        """
         self.root = root
         self.scoreboard = scoreboard
         self.score_labels = []
@@ -13,6 +30,7 @@ class ScoreboardUI:
         self.__setup_scoreboard()
 
     def __setup_scoreboard(self):
+        """ Alustaa tulostaulun """
         row = 3
         for category in LABEL_NAMES:
             # Add bonus row after upper section
@@ -48,6 +66,13 @@ class ScoreboardUI:
         )
 
     def render_score_options(self, dice, last_throw=False):
+        """ Päivittää mahdolliset pistevalinnat noppien perusteella.
+            Jos viimeinen heitto, myös nollan pisteen valinnat ovat mahdollisia.
+
+        Args:
+            dice: nopat
+            last_throw: viimeinen heitto
+        """
         possible_scores = self.scoreboard.get_possible_scores(dice)
 
         # Go through all labels and render correct display
@@ -92,6 +117,12 @@ class ScoreboardUI:
                     )
 
     def update_score(self, label, score):
+        """ Päivittää pistetuloksen ja estää valinnan uudelleen
+
+        Args:
+            label: valittu kategoria
+            score: pistemäärä
+        """
         # Update score label
         index = LABEL_KEYS.index(label)
         self.score_labels[index].config(

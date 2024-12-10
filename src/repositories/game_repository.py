@@ -1,15 +1,29 @@
 class GameRepository:
-    def __init__(self, connection, scoreboard_repository):
+    """ Luokka joka vastaa pelien tallentamisesta ja hakemisesta tietokannasta
+
+    Attributes:
+        connection: tietokantayhteys
+    """
+    def __init__(self, connection):
+        """ Konstruktori, alustaa pelirepositorion
+
+        Args:
+            connection: tietokantayhteys
+        """
         self._connection = connection
-        self._scoreboard_repository = scoreboard_repository
 
     def find_all(self):
+        """ Hakee kaikki pelit ja järjestää ne kokonaispisteiden mukaan laskevaan järjestykseen """
         cursor = self._connection.cursor()
         cursor.execute("SELECT * FROM games ORDER BY total_score DESC")
         return cursor.fetchall()
 
     def create(self, total_score):
-        """Save game data and return game_id"""
+        """ Tallentaa uuden pelin tietokantaan ja palauttaa sen id:n
+
+        Args:
+            total_score: pelin kokonaispisteet
+        """
         cursor = self._connection.cursor()
         cursor.execute(
             "INSERT INTO games (total_score) VALUES (?)",

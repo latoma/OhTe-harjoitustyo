@@ -6,7 +6,24 @@ DICE_IMAGE_FILES = ["src/assets/Die_1.png", "src/assets/Die_2.png", "src/assets/
 
 
 class DiceUI:
+    """Luokka joka vastaa noppien käyttöliittymästä
+
+    Attributes:
+        root: pääikkuna
+        dice: nopat
+        dice_images: lista noppien kuvista
+        empty_image: tyhjä kuva
+        dice_labels: lista noppien kuvista
+        hold_buttons: lista noppien pidä-nappuloista
+    """
+
     def __init__(self, root, dice: Dice):
+        """ Konstruktori, alustaa noppien käyttöliittymän
+
+        Args:
+            root: pääikkuna
+            dice: nopat
+        """
         self.root = root
         self.dice = dice
         self.dice_images = self.load_dice_images()
@@ -15,9 +32,11 @@ class DiceUI:
         self.hold_buttons = self.create_hold_buttons()
 
     def load_dice_images(self):
+        """ Lataa noppien kuvat """
         return [PhotoImage(file=dice_image) for dice_image in DICE_IMAGE_FILES]
 
     def create_dice_labels(self):
+        """ Luo noppien kuvat """
         dice_labels = []
         for column in range(5):
             new_die_label = Label(self.root, image=self.empty_image)
@@ -26,6 +45,7 @@ class DiceUI:
         return dice_labels
 
     def create_hold_buttons(self):
+        """ Luo noppien pidä-nappulat """
         hold_buttons = []
         for column in range(5):
             button = Button(
@@ -40,11 +60,17 @@ class DiceUI:
         return hold_buttons
 
     def toggle_hold(self, die_index):
+        """ Vaihtaa nopan pidä-tilan
+
+        Args:
+            die_index: nopan indeksi
+        """
         self.dice._Dice__dice[die_index].toggle_hold_status()
         self.update_hold_buttons()
         self.update_display()
 
     def update_hold_buttons(self):
+        """ Päivittää pidä-nappuloiden tilan """
         for i, die in enumerate(self.dice._Dice__dice):
             button = self.hold_buttons[i]
             if die.in_hold():
@@ -58,10 +84,12 @@ class DiceUI:
                 button.config(state="normal")
 
     def throw_dice(self):
+        """ Heittää nopat ja päivittää käyttöliittymän """
         self.dice.roll_dice()
         self.update_display()
 
     def update_display(self):
+        """ Päivittää noppien kuvat """
         for i, die in enumerate(self.dice._Dice__dice):
             value = die.get_value()
             if value > 0:
@@ -71,14 +99,13 @@ class DiceUI:
                 )
 
     def reset_holds(self):
+        """ Nollaa pidä-tilan """
         self.dice.reset_holds()
         self.update_hold_buttons()
         self.update_display()
 
     def prepare_dice_for_next_round(self):
-        """
-        Resets holds, locks dice holding and updates dice ui
-        """
+        """ Valmistelee nopat seuraavaa kierrosta varten """
         self.reset_holds()
         self.dice.lock_dice()
         self.update_hold_buttons()

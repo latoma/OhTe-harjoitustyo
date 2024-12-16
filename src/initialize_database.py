@@ -20,6 +20,7 @@ def create_tables(connection):
         CREATE TABLE games (
             id INTEGER PRIMARY KEY,
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+            player_name VARCHAR(10),
             total_score INTEGER
         )
     ''')

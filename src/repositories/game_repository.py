@@ -18,16 +18,21 @@ class GameRepository:
         cursor.execute("SELECT * FROM games ORDER BY total_score DESC")
         return cursor.fetchall()
 
-    def create(self, total_score):
-        """ Tallentaa uuden pelin tietokantaan ja palauttaa sen id:n
+    def create(self, player_name, total_score):
+        """ Tallentaa pelatun pelin tietokantaan ja palauttaa sen id:n
 
         Args:
+            player_name: pelaajan nimi
             total_score: pelin kokonaispisteet
         """
         cursor = self._connection.cursor()
+
+        if len(player_name) > 10:
+            player_name = player_name[:10]
+
         cursor.execute(
-            "INSERT INTO games (total_score) VALUES (?)",
-            (total_score,)
+            "INSERT INTO games (player_name, total_score) VALUES (?, ?)",
+            (player_name ,total_score)
         )
         self._connection.commit()
-        return cursor.lastrowid # Return the id of the last row inserted
+        return cursor.lastrowid

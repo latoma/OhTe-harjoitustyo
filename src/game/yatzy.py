@@ -7,6 +7,7 @@ from game.scoreboard import Scoreboard
 from repositories.game_repository import GameRepository
 from repositories.scoreboard_repository import ScoreboardRepository
 from database_connection import get_database_connection
+from tkinter import simpledialog
 
 class Yatzy:
     """ Pääluokka, joka hallinnoi pelin kulkua ja käyttöliittymää """
@@ -114,14 +115,16 @@ class Yatzy:
     def end_game(self):
         """ Lopettaa pelin ja tallentaa tuloksen tietokantaan """
         total_score = self.__scoreboard.get_total_score()
+        self.ask_player_name(total_score)
 
-        game_id = self.__game_repository.create(total_score)
-
-        self.__scoreboard_repository.create(game_id, self.__scoreboard)
-
-        self.__leaderboard_ui.update_scores()
-        self.__main_window.create_new_game_button(self.start_new_game)
-
+    def ask_player_name(self, total_score):
+        """ Avaa ikkunan, jossa kysytään pelaajan nimi ja tallentaa tuloksen tietokantaan """
+        player_name = simpledialog.askstring("Peli päättyi", "Nimimerkki:")
+        if player_name:
+            game_id = self.__game_repository.create(player_name, total_score)
+            self.__scoreboard_repository.create(game_id, self.__scoreboard)
+            self.__leaderboard_ui.update_scores()
+            self.__main_window.create_new_game_button(self.start_new_game)
 
     def start_new_game(self):
         """ Aloittaa uuden pelin """

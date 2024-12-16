@@ -30,11 +30,11 @@ class LeaderboardUI:
             highlightbackground="gray",
             highlightthickness=1
         )
-        self.score_frame.grid(row=3, column=5, rowspan=15, padx=20)
+        self.score_frame.grid(row=1, column=5, rowspan=15, padx=20)
 
         header = Label(
             self.score_frame,
-            text="Tulostaulu:",
+            text="Parhaat tulokset:",
             font=("TkDefaultFont", 12, "bold"),
             bg="white",
             borderwidth=1,
@@ -42,17 +42,18 @@ class LeaderboardUI:
             width=20,
             pady=5
         )
-        header.grid(row=0, column=0, columnspan=2, sticky="ew")
+        header.grid(row=0, column=0, columnspan=4, sticky="ew")
 
         self.score_labels = []
         self.score_buttons = []
         self.update_scores()
 
-    def show_game_details(self, game_id):
+    def show_game_details(self, game_id, player_name):
       """ Näyttää pelin tulokset erillisessä ikkunassa
 
       Args:
           game_id: pelin id
+          player_name: pelaajan nimi
       """
       scoreboard_data = self.scoreboard_repository.find_by_game_id(game_id)
       if not scoreboard_data:
@@ -73,6 +74,13 @@ class LeaderboardUI:
           font=("TkDefaultFont", 12, "bold"),
           bg="white",
           pady=10
+      ).pack()
+
+      Label(
+          detail_window,
+          text=f"{player_name}",
+          font=("TkDefaultFont", 12),
+          bg="white",
       ).pack()
 
       # Create frame for scores
@@ -184,32 +192,68 @@ class LeaderboardUI:
             bg_color = "#f0f0f0" if i % 2 == 0 else "white"
 
             if i <= len(games):
-                text = f"{i}. {games[i-1]['total_score']} pistettä"
+                rank_text = f"{i}."
+                player_name = games[i-1]['player_name']
+                score_text = f"{games[i-1]['total_score']} pistettä"
                 game_id = games[i-1]['id']
             else:
-                text = f"{i}. ---"
+                rank_text = f"{i}."
+                player_name = "---"
+                score_text = "---"
                 game_id = None
 
-            label = Label(
+            # Rank label
+            rank_label = Label(
                 self.score_frame,
-                text=text,
+                text=rank_text,
                 font=("TkDefaultFont", 11),
                 bg=bg_color,
                 borderwidth=1,
                 relief="solid",
-                width=15,
-                anchor="w",
+                anchor="center",
+                width=2,
                 padx=5
             )
-            label.grid(row=i, column=0, sticky="ew")
-            self.score_labels.append(label)
+            rank_label.grid(row=i, column=0, sticky="ew")
+            self.score_labels.append(rank_label)
+
+            # Player name label
+            name_label = Label(
+                self.score_frame,
+                text=player_name,
+                font=("TkDefaultFont", 11),
+                bg=bg_color,
+                borderwidth=1,
+                relief="solid",
+                width=10,
+                anchor="center",
+                padx=5
+            )
+            name_label.grid(row=i, column=1, sticky="ew")
+            self.score_labels.append(name_label)
+
+            # Score label
+            score_label = Label(
+                self.score_frame,
+                text=score_text,
+                font=("TkDefaultFont", 11),
+                bg=bg_color,
+                borderwidth=1,
+                relief="solid",
+                width=12,
+                anchor="center",
+                padx=5
+            )
+            score_label.grid(row=i, column=2, sticky="ew")
+            self.score_labels.append(score_label)
 
             if game_id is not None:
                 button = Button(
                     self.score_frame,
-                    text="Näytä lappu",
+                    text="Näytä",
                     font=("TkDefaultFont", 9),
-                    command=lambda g_id=game_id: self.show_game_details(g_id)
+                    command=lambda g_id=game_id, p_name=player_name:
+                        self.show_game_details(g_id, p_name)
                 )
-                button.grid(row=i, column=1, padx=5)
+                button.grid(row=i, column=3, padx=5)
                 self.score_buttons.append(button)

@@ -1,12 +1,18 @@
 from tkinter import Label, PhotoImage, Button
 from game.dice import Dice
+import random
 
 DICE_IMAGE_FILES = ["src/assets/Die_1.png", "src/assets/Die_2.png", "src/assets/Die_3.png",
                     "src/assets/Die_4.png", "src/assets/Die_5.png", "src/assets/Die_6.png"]
 
+# Animation constants
+TEMP_FACE_DELAY = 50  # Delay between temporary faces (milliseconds)
+TEMP_FACES_COUNT = 5
+FINAL_FACE_DELAY = 250  # Delay before showing final face
+NEXT_DIE_DELAY = 50
 
 class DiceUI:
-    """Luokka joka vastaa noppien käyttöliittymästä
+    """Luokka joka vastaa noppien käyttöliittymästä ja animaatiosta
 
     Attributes:
         root: pääikkuna
@@ -83,10 +89,44 @@ class DiceUI:
             else:
                 button.config(state="normal")
 
-    def throw_dice(self):
-        """ Heittää nopat ja päivittää käyttöliittymän """
-        self.dice.roll_dice()
-        self.update_display()
+    # LLM-used making this method
+    def animate_roll(self, completion_callback=None):
+        """Animates dice roll one die at a time with completion callback"""
+        non_held_indices = [i for i, die in enumerate(self.dice._Dice__dice) if not die.in_hold()]
+        final_values = [die.get_value() for die in self.dice._Dice__dice]
+
+        def animate_single_die(die_index, remaining_indices):
+            if not remaining_indices:
+                if completion_callback:
+                    completion_callback()
+                return
+
+            current_die = remaining_indices[0]
+
+            for step in range(TEMP_FACES_COUNT):
+                def show_temp(step):
+                    temp_value = random.randint(1, 6)
+                    self.dice_labels[current_die].configure(
+                        image=self.dice_images[temp_value-1]
+                    )
+                self.dice_labels[current_die].after(step * TEMP_FACE_DELAY, lambda s=step: show_temp(s))
+
+            def show_final():
+                self.dice_labels[current_die].configure(
+                    image=self.dice_images[final_values[current_die]-1]
+                )
+                if len(remaining_indices) > 1:
+                    self.dice_labels[current_die].after(
+                        NEXT_DIE_DELAY,
+                        lambda: animate_single_die(current_die, remaining_indices[1:])
+                    )
+                else:
+                    animate_single_die(current_die, [])
+
+            self.dice_labels[current_die].after(FINAL_FACE_DELAY, show_final)
+
+        if non_held_indices:
+            animate_single_die(non_held_indices[0], non_held_indices)
 
     def update_display(self):
         """ Päivittää noppien kuvat """

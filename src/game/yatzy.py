@@ -54,26 +54,42 @@ class Yatzy:
     def start(self):
         self.__main_window.mainloop()
 
+    # LLM-used in the die roll animation logic
     def roll_dice(self):
         """ Heittää nopat ja päivittää käyttöliittymän """
+
+        # Enable select buttons if its the first roll
         if self.__throws_left == 3:
             self.__scoreboard_ui.enable_select_buttons()
             self.__dice.unlock_dice()
             self.__dice_ui.update_hold_buttons()
 
         if self.__throws_left > 0:
+            self.__scoreboard_ui.disable_select_buttons()
             self.__dice.roll_dice()
-            self.__dice_ui.update_display()
 
-            self.__throws_left -= 1
-            if self.__test_mode:
-                self.__throws_left += 1
-            self.__main_window.update_throws_left(self.__throws_left)
+            def after_animation():
+                self.__scoreboard_ui.enable_select_buttons()
+                self.__throws_left -= 1
+                if self.__test_mode:
+                    self.__throws_left += 1
+                self.__main_window.update_throws_left(self.__throws_left)
 
-            self.__scoreboard_ui.render_score_options(
-                self.__dice,
-                last_throw=self.__throws_left == 0 or self.__test_mode
+                self.__scoreboard_ui.render_score_options(
+                    self.__dice,
+                    last_throw=self.__throws_left == 0 or self.__test_mode
                 )
+
+                if self.__throws_left == 0:
+                    self.__main_window.roll_button.config(
+                        state="disabled",
+                        relief="sunken",
+                        bg="lightgray"
+                    )
+                    self.__dice.lock_dice()
+                    self.__dice_ui.update_hold_buttons()
+
+            self.__dice_ui.animate_roll(after_animation)
 
         if self.__throws_left == 0:
             # Make roll button visibly disabled

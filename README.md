@@ -20,7 +20,7 @@ Kyseessä on tietokoneella pelattava yksinpeli versio tunnetusta Yatzy-noppapeli
 poetry install
 ```
 
-2. Alusta tietokanta
+2. Alusta/tyjennä tietokanta
    
 ```bash
 python3 ./src/initialize_database.py
@@ -37,6 +37,7 @@ poetry run invoke start
 ```bash
 poetry run invoke start-test-mode
 ```
+(Testi tilassa heitoja on loputtomasti ja pelin voi pisteyttää halutessaan. Helpottaa ominaisuuksien testaamista)
 
 
 ### Testaus

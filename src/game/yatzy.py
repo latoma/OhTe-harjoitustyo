@@ -13,7 +13,7 @@ class Yatzy:
     """ Pääluokka, joka hallinnoi pelin kulkua ja käyttöliittymää """
 
     def __init__(self, test_mode=False):
-        """ Konstruktori, alustaa pelin ja käyttöliittymän
+        """ Konstruktori, alustaa pelin ja sen käyttöliittymän
 
         Args:
             test_mode: testitila käytössä
@@ -54,66 +54,79 @@ class Yatzy:
     def start(self):
         self.__main_window.mainloop()
 
-    # LLM-used in the animation logic
     def roll_dice(self):
-        """ Heittää nopat ja päivittää käyttöliittymän """
+        """
+        Heittää nopat ja päivittää käyttöliittymän tilan.
 
-        # Enable select buttons if its the first roll
+        Jos kyseessä on ensimmäinen heitto:
+            -> Vapauta edellisen kierroksen hold-statukset nopilta.
+        -> Noppien heitto
+        -> Vähentää jäljellä olevien heittojen määrään.
+        -> Aktivoi heittoanimaatio
+        Animaation jälkeen:
+        -> Renderöi pistevaihtoehdot.
+        -> Aktivoi valintapainikkeet.
+
+        Jos heittoja ei ole enää jäljellä:
+            -> Deaktivoi heittopainike
+            -> Lukitse nopat
+        """
+
         if self.__throws_left == 3:
             self.__scoreboard_ui.enable_select_buttons()
             self.__dice.unlock_dice()
             self.__dice_ui.update_hold_buttons()
 
-        if self.__throws_left > 0:
-            self.__scoreboard_ui.disable_select_buttons()
-            self.__dice.roll_dice()
-            self.__throws_left -= 1
-            if self.__test_mode:
-                self.__throws_left += 1
-            self.__main_window.update_throws_left(self.__throws_left)
+        self.__scoreboard_ui.disable_select_buttons()
+        self.__dice.roll_dice()
 
-            def after_animation():
-                self.__scoreboard_ui.enable_select_buttons()
+        self.__throws_left -= 1
+        if self.__test_mode:
+            self.__throws_left += 1
+        self.__main_window.update_throws_left(self.__throws_left)
 
-                self.__scoreboard_ui.render_score_options(
-                    self.__dice,
-                    last_throw=self.__throws_left == 0 or self.__test_mode
+        def after_animation():
+            self.__scoreboard_ui.enable_select_buttons()
+            possible_scores = self.__scoreboard.get_possible_scores(self.__dice)
+            self.__scoreboard_ui.render_score_options(
+                possible_scores=possible_scores,
+                last_throw=self.__throws_left == 0 or self.__test_mode
+            )
+
+            if self.__throws_left == 0:
+                self.__main_window.roll_button.config(
+                    state="disabled",
+                    relief="sunken",
+                    bg="lightgray"
                 )
+                self.__dice.lock_dice()
+                self.__dice_ui.update_hold_buttons()
 
-                if self.__throws_left == 0:
-                    self.__main_window.roll_button.config(
-                        state="disabled",
-                        relief="sunken",
-                        bg="lightgray"
-                    )
-                    self.__dice.lock_dice()
-                    self.__dice_ui.update_hold_buttons()
-
-            self.__dice_ui.animate_roll(after_animation)
+        self.__dice_ui.animate_roll(after_animation)
 
         if self.__throws_left == 0:
-            # Make roll button visibly disabled
             self.__main_window.roll_button.config(
                 state="disabled",
                 relief="sunken",
                 bg="lightgray"
             )
-            # Lock dice so they can't be held
             self.__dice.lock_dice()
             self.__dice_ui.update_hold_buttons()
 
 
     def select_score(self, label):
-        """ Valitsee pistemäärän ja päivittää pistetaulun
+        """
+        - Valitsee pistemäärän ja päivittää pistetaulun ja heittojen määrän.
+        - Valmistelee nopat seuraavaa kierrosta varten.
+        - Lopettaa pelin, jos kierrokset loppuvat.
 
         Args:
-            label: valittu kategoria
+            label: valinta-näppäimen kategoria
         """
         score = self.__scoreboard.calculate_score(label, self.__dice.get_values())
         self.__scoreboard.set_score(label, score)
         self.__scoreboard_ui.disable_select_buttons()
         self.__scoreboard_ui.update_score(label, score)
-        self.__scoreboard_ui.render_score_options(self.__dice)
         self.__throws_left = 3
         self.__main_window.update_throws_left(self.__throws_left)
         self.__dice_ui.prepare_dice_for_next_round()
@@ -124,17 +137,13 @@ class Yatzy:
         )
         self.__round += 1
 
-        # Check if game is over
         if self.__round > 15:
             self.end_game()
 
     def end_game(self):
-        """ Lopettaa pelin ja tallentaa tuloksen tietokantaan """
+        """ Lopettaa pelin, kysyy käyttäjän nimimerkin ja tallentaa tuloksen tietokantaan """
         total_score = self.__scoreboard.get_total_score()
-        self.ask_player_name(total_score)
 
-    def ask_player_name(self, total_score):
-        """ Avaa ikkunan, jossa kysytään pelaajan nimi ja tallentaa tuloksen tietokantaan """
         player_name = simpledialog.askstring("Peli päättyi", "Nimimerkki:")
         if player_name:
             game_id = self.__game_repository.create(player_name, total_score)

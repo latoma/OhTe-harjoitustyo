@@ -82,16 +82,13 @@ class ScoreboardUI:
             padx=5
         )
 
-    def render_score_options(self, dice, last_throw=False):
-        """ Päivittää mahdolliset pistevalinnat noppien perusteella.
+    def render_score_options(self, possible_scores, last_throw=False):
+        """ Päivittää tulostaulukkoon piste-vaihtoehdot ja sen valitsemisnäppäimen.
             Jos viimeinen heitto, myös nollan pisteen valinnat ovat mahdollisia.
 
         Args:
-            dice: nopat
             last_throw: viimeinen heitto
         """
-        possible_scores = self.scoreboard.get_possible_scores(dice)
-
         # Go through all labels and render correct display
         for i, key in enumerate(LABEL_KEYS):
             current_score = self.scoreboard.get_score(key)
@@ -144,7 +141,8 @@ class ScoreboardUI:
         index = LABEL_KEYS.index(label)
         self.score_labels[index].config(
             text=str(score),
-            relief="sunken"
+            relief="sunken",
+            font=("TkDefaultFont", 12, "bold")
         )
         # Disable selection button
         self.root.select_buttons[index].config(state=DISABLED)

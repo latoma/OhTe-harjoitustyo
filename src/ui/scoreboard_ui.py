@@ -1,5 +1,5 @@
-from tkinter import Label, DISABLED, Button
-from constants.labels import LABEL_NAMES, LABEL_KEYS
+from tkinter import Label, Button, DISABLED, Button, Toplevel
+from constants.labels import LABEL_NAMES, LABEL_KEYS, SCORE_EXPLANATION
 from game.scoreboard import Scoreboard
 
 class ScoreboardUI:
@@ -33,15 +33,32 @@ class ScoreboardUI:
         """ Alustaa tulostaulun """
         row = 3
         for category in LABEL_NAMES:
-            # Add bonus row after upper section
+            # Helper function for showing explanations
+            def show_explanation(category=category):
+                explanation_window = Toplevel(self.root)
+                explanation_window.title("Selitys")
+                Label(explanation_window, text=f"{SCORE_EXPLANATION[category]}").pack(padx=10, pady=10)
+                Button(explanation_window, text="Sulje", command=explanation_window.destroy).pack(pady=5)
+
+                # LLM-generated code for centering the window
+                self.root.update_idletasks()
+                x = self.root.winfo_x() + (self.root.winfo_width() // 2) - (explanation_window.winfo_reqwidth() // 2)
+                y = self.root.winfo_y() + (self.root.winfo_height() // 2) - (explanation_window.winfo_reqheight() // 2)
+                explanation_window.geometry(f"+{x}+{y}")
+
+            # Add row for bonus after upper section rows
             if row == 9:
-                Label(self.root, text="Bonus (+50 jos 63p)").grid(row=row, column=1, sticky="w", padx=5)
+                Button(self.root, text="?", font=("TkDefaultFont", 10), command=lambda: show_explanation(category='Bonus')).grid(row=row, column=0, sticky="e", padx=5)
+                Label(self.root, text="Bonus (+50 jos 63p)").grid(row=row, column=1, sticky="e", padx=5, pady=5)
                 self.bonus_label = Label(self.root, text="-", width=10, bg="white")
                 self.bonus_label.grid(row=row, column=2, sticky="ew", padx=5)
                 row += 1
 
+            # Explanation button
+            Button(self.root, text="?", font=("TkDefaultFont", 10), command=show_explanation).grid(row=row, column=0, sticky="e", padx=5)
+
             # Category label
-            Label(self.root, text=category).grid(row=row, column=1, sticky="w", padx=5)
+            Label(self.root, text=category).grid(row=row, column=1, sticky="e", padx=5)
 
             # Score label
             score_label = Label(self.root, text="", relief="groove",

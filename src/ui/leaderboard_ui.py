@@ -34,7 +34,7 @@ class LeaderboardUI:
 
         header = Label(
             self.score_frame,
-            text="Parhaat tulokset:",
+            text="Top 10 tulokset:",
             font=("TkDefaultFont", 12, "bold"),
             bg="white",
             borderwidth=1,
@@ -113,7 +113,7 @@ class LeaderboardUI:
       # Display bonus
       Label(
           scores_frame,
-          text="Bonus (+50 if sum ≥ 63)",
+          text="Bonus (+50 jos 63p)",
           font=("TkDefaultFont", 10),
           bg="white",
           anchor="w",

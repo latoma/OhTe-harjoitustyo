@@ -44,24 +44,24 @@ class Scoreboard:
         """
         score = 0
         match label:
-            case 'ones' | 'twos' | 'threes' | 'fours' | 'fives' | 'sixes':
+            case 'ykköset' | 'kakkoset' | 'kolmoset' | 'neloset' | 'vitoset' | 'kutoset':
                 value = LABEL_KEYS.index(label) + 1
                 score = value * dice_values.count(value)
-            case 'a_pair':
+            case 'yksi_pari':
                 score = self.calculate_n_of_a_kind_score(2, dice_values)
-            case 'two_pairs':
+            case 'kaksi_paria':
                 score = self.calculate_two_pairs_score(dice_values)
-            case 'three_of_a_kind':
+            case 'kolmiluku':
                 score = self.calculate_n_of_a_kind_score(3, dice_values)
-            case 'four_of_a_kind':
+            case 'nelosluku':
                 score = self.calculate_n_of_a_kind_score(4, dice_values)
-            case 'full_house':
+            case 'täyskäsi':
                 score = self.calculate_full_house_score(dice_values)
-            case 'small_straight':
+            case 'pieni_suora':
                 score = self.calculate_small_straight_score(dice_values)
-            case 'large_straight':
+            case 'iso_suora':
                 score = self.calculate_large_straight_score(dice_values)
-            case 'chance':
+            case 'sattuma':
                 score = sum(dice_values)
             case 'yatzy':
                 if dice_values.count(dice_values[0]) == 5:
@@ -107,7 +107,7 @@ class Scoreboard:
         return 20
 
     def has_points_for_bonus(self):
-        upper_section_labels = LABEL_KEYS[:6] #ones, twos, threes, fours, fives, sixes
+        upper_section_labels = LABEL_KEYS[:6]
         upper_section_score = sum(
             score for label, score in self.__scores.items()
             if label in upper_section_labels and score is not None

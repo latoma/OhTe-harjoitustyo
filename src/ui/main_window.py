@@ -1,5 +1,5 @@
-from tkinter import Tk, Button, Label, DISABLED
-from constants.labels import LABEL_NAMES, LABEL_KEYS
+from tkinter import Tk, Button, Label, DISABLED, S, E, Toplevel, Text
+from constants.labels import LABEL_NAMES, LABEL_KEYS, INSTRUCTIONS
 
 class MainWindow(Tk):
     """ Luokka joka vastaa pelin päänäkymästä
@@ -13,8 +13,18 @@ class MainWindow(Tk):
     def __init__(self, test_mode=False):
         super().__init__()
         self.configure(bg="white")
-        self.title("Yahtzee")
+        self.title("Yatzy")
         self.geometry("900x700")
+
+        # Game title
+        self.__game_title_label = Label(self, text='Yatzy!', font="lucida 40 bold italic", foreground='yellow', bg='magenta')
+        self.__game_title_label.grid(row=0, column=5, columnspan=2, pady=11, padx=32)
+        Label(self, text='Single Player', font="lucida 9 bold italic", foreground='yellow', bg='magenta')\
+            .grid(row=0, column=5, columnspan=2, sticky=S + E, padx=25)
+
+        # Instructions button
+        self.instructions_button = Button(self, text="Ohjeet", font=("TkDefaultFont", 12), command=self.show_instructions)
+        self.instructions_button.grid(row=1, column=5, columnspan=2, pady=10)
 
         #Roll button
         self.roll_button = Button(self, text="Heitä nopat", font=("TkDefaultFont", 12))
@@ -40,6 +50,16 @@ class MainWindow(Tk):
                 padx=5, pady=5,
                 sticky="ew"
             )
+
+    def show_instructions(self):
+        """ Näyttää ohjeet uudessa ikkunassa """
+        instructions_window = Toplevel(self)
+        instructions_window.title("Ohjeet")
+        instructions_window.geometry("600x400")
+        instructions_text = Text(instructions_window, wrap="word")
+        instructions_text.insert("1.0", "\n".join(INSTRUCTIONS))
+        instructions_text.config(state=DISABLED)
+        instructions_text.pack(expand=True, fill="both")
 
     def create_score_buttons(self):
         """ Luo pistevalintojen nappulat """

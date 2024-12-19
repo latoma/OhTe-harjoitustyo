@@ -35,7 +35,7 @@ class ScoreboardUI:
         for category in LABEL_NAMES:
             # Add bonus row after upper section
             if row == 9:
-                Label(self.root, text="Bonus (+50 if sum ≥ 63)").grid(row=row, column=1, sticky="w", padx=5)
+                Label(self.root, text="Bonus (+50 jos 63p)").grid(row=row, column=1, sticky="w", padx=5)
                 self.bonus_label = Label(self.root, text="-", width=10, bg="white")
                 self.bonus_label.grid(row=row, column=2, sticky="ew", padx=5)
                 row += 1

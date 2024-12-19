@@ -31,7 +31,7 @@ class MainWindow(Tk):
         self.roll_button.grid(row=2, column=2, pady=10)
 
         # Throws left label
-        self.throws_left_label = Label(self, text="Heittoja jäljellä: 3",
+        self.throws_left_label = Label(self, text="Heittoja: 3",
                                   font=("TkDefaultFont", 12))
         self.throws_left_label.grid(row=2, column=1, pady=10, padx=10)
 
@@ -122,4 +122,4 @@ class MainWindow(Tk):
         self.save_score_button.config(command=command)
 
     def update_throws_left(self, throws):
-        self.throws_left_label.config(text=f"Heittoja jäljellä: {throws}")
+        self.throws_left_label.config(text=f"Heittoja: {throws}")

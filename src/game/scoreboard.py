@@ -53,7 +53,7 @@ class Scoreboard:
                 score = self.calculate_two_pairs_score(dice_values)
             case 'kolmiluku':
                 score = self.calculate_n_of_a_kind_score(3, dice_values)
-            case 'nelosluku':
+            case 'neliluku':
                 score = self.calculate_n_of_a_kind_score(4, dice_values)
             case 'täyskäsi':
                 score = self.calculate_full_house_score(dice_values)

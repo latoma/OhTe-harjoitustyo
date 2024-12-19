@@ -54,7 +54,7 @@ class Yatzy:
     def start(self):
         self.__main_window.mainloop()
 
-    # LLM-used in the die roll animation logic
+    # LLM-used in the animation logic
     def roll_dice(self):
         """ Heittää nopat ja päivittää käyttöliittymän """
 
@@ -67,13 +67,13 @@ class Yatzy:
         if self.__throws_left > 0:
             self.__scoreboard_ui.disable_select_buttons()
             self.__dice.roll_dice()
+            self.__throws_left -= 1
+            if self.__test_mode:
+                self.__throws_left += 1
+            self.__main_window.update_throws_left(self.__throws_left)
 
             def after_animation():
                 self.__scoreboard_ui.enable_select_buttons()
-                self.__throws_left -= 1
-                if self.__test_mode:
-                    self.__throws_left += 1
-                self.__main_window.update_throws_left(self.__throws_left)
 
                 self.__scoreboard_ui.render_score_options(
                     self.__dice,

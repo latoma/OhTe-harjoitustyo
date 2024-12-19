@@ -1,7 +1,7 @@
 from tkinter import Label, Frame, Button, Toplevel
 from constants.labels import LABEL_NAMES
 
-# LLM used to make this
+# LLM used heavily here
 class LeaderboardUI:
     """ Class for the leaderboard UI
 
@@ -48,7 +48,7 @@ class LeaderboardUI:
         self.score_buttons = []
         self.update_scores()
 
-    def show_game_details(self, game_id, player_name):
+    def show_game_details(self, game_id, player_name, timestamp):
       """ Näyttää pelin tulokset erillisessä ikkunassa
 
       Args:
@@ -70,17 +70,19 @@ class LeaderboardUI:
       # Create header
       Label(
           detail_window,
-          text="Pelin pisteet:",
+          text=f"{player_name}, {scoreboard_data['total_score']} pistettä",
           font=("TkDefaultFont", 12, "bold"),
           bg="white",
           pady=10
       ).pack()
 
+      # Date played
       Label(
           detail_window,
-          text=f"{player_name}",
-          font=("TkDefaultFont", 12),
+          text=f"Pelattu: {timestamp}",
+          font=("TkDefaultFont", 10),
           bg="white",
+          pady=5
       ).pack()
 
       # Create frame for scores
@@ -176,6 +178,11 @@ class LeaderboardUI:
           borderwidth=1
       ).grid(row=row, column=1, padx=5, pady=10)
 
+      self.root.update_idletasks()
+      x = self.root.winfo_x() + (self.root.winfo_width() // 2) - (detail_window.winfo_reqwidth() // 2)
+      y = self.root.winfo_y() + (self.root.winfo_height() // 2) - (detail_window.winfo_reqheight() // 2)
+      detail_window.geometry(f"+{x}+{y}")
+
     def update_scores(self):
         """ Päivittää tulostaulun """
         for label in self.score_labels:
@@ -195,6 +202,7 @@ class LeaderboardUI:
                 rank_text = f"{i}."
                 player_name = games[i-1]['player_name']
                 score_text = f"{games[i-1]['total_score']} pistettä"
+                timestamp = games[i-1]['timestamp']
                 game_id = games[i-1]['id']
             else:
                 rank_text = f"{i}."
@@ -252,8 +260,8 @@ class LeaderboardUI:
                     self.score_frame,
                     text="Näytä",
                     font=("TkDefaultFont", 9),
-                    command=lambda g_id=game_id, p_name=player_name:
-                        self.show_game_details(g_id, p_name)
+                    command=lambda g_id=game_id, p_name=player_name, ts=timestamp:
+                        self.show_game_details(g_id, p_name, ts)
                 )
                 button.grid(row=i, column=3, padx=5)
                 self.score_buttons.append(button)

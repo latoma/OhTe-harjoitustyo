@@ -36,20 +36,20 @@ INSTRUCTIONS = ["OHJEET:\n"
         ]
 
 SCORE_EXPLANATION = {
-  'Ykköset (5)': 'Ykköset: Noppien summa, joissa on numero 1',
-  'Kakkoset (10)': 'Kakkoset: Noppien summa, joissa on numero 2',
-  'Kolmoset (15)': 'Kolmoset: Noppien summa, joissa on numero 3',
-  'Neloset (20)': 'Neloset: Noppien summa, joissa on numero 4',
-  'Vitoset (25)': 'Vitoset: Noppien summa, joissa on numero 5',
-  'Kutoset (30)': 'Kutoset: Noppien summa, joissa on numero 6',
-  'Bonus': 'Bonus: Jos yläkerran summa (ykköset -> kutoset) on yhteensä 63p tai enemmän, saat 50 bonus pistettä',
-  'Yksi pari (12)': 'Yksi pari: Kaksi noppaa, joissa on sama numero',
-  'Kaksi paria (22)': 'Kaksi paria: Kaksi erilukuista paria',
-  'Kolmiluku (18)': 'Kolmiluku: Kolme noppaa, joissa on sama numero',
-  'Neliluku (24)': 'Neliluku: Neljä noppaa, joissa on sama numero',
-  'Täyskäsi (28)': 'Täyskäsi: Kolmiluku + pari',
-  'Pieni suora (15)': 'Pieni suora: Nopat sisältävät numerot 1, 2, 3, 4, 5',
-  'Iso suora (20)': 'Iso suora: Nopat sisältävät numerot 2, 3, 4, 5, 6',
-  'Sattuma (30)': 'Sattuma: Kaikkien noppien summa',
-  'Yatzy (50)': 'Yatzy: Kaikki viisi noppaa ovat samaa numeroa. Antaa 50 pistettä'
+  'Ykköset (5)': 'Ykköset: Noppien summa, joissa on numero 1. (Max 5 pistettä)',
+  'Kakkoset (10)': 'Kakkoset: Noppien summa, joissa on numero 2. (Max 10 pistettä)',
+  'Kolmoset (15)': 'Kolmoset: Noppien summa, joissa on numero 3. (Max 15 pistettä)',
+  'Neloset (20)': 'Neloset: Noppien summa, joissa on numero 4. (Max 20 pistettä)',
+  'Vitoset (25)': 'Vitoset: Noppien summa, joissa on numero 5. (Max 25 pistettä)',
+  'Kutoset (30)': 'Kutoset: Noppien summa, joissa on numero 6. (Max 30 pistettä)',
+  'Bonus': 'Bonus: Jos yläkerran summa (ykköset -> kutoset) on yhteensä 63p tai enemmän, saat 50 bonus pistettä)',
+  'Yksi pari (12)': 'Yksi pari: Kaksi noppaa, joissa on sama numero. (Max 12 pistettä)',
+  'Kaksi paria (22)': 'Kaksi paria: Kaksi erilukuista paria. (Max 22 pistettä)',
+  'Kolmiluku (18)': 'Kolmiluku: Kolme noppaa, joissa on sama numero. (Max 18 pistettä)',
+  'Neliluku (24)': 'Neliluku: Neljä noppaa, joissa on sama numero. (Max 24 pistettä)',
+  'Täyskäsi (28)': 'Täyskäsi: Kolmiluku + pari. (Max 28 pistettä)',
+  'Pieni suora (15)': 'Pieni suora: Nopat sisältävät numerot 1, 2, 3, 4, 5. (15 pistettä)',
+  'Iso suora (20)': 'Iso suora: Nopat sisältävät numerot 2, 3, 4, 5, 6. (20 pistettä)',
+  'Sattuma (30)': 'Sattuma: Kaikkien noppien summa. (Max 30 pistettä)',
+  'Yatzy (50)': 'Yatzy: Kaikki viisi noppaa ovat samaa numeroa. (50 pistettä)'
 }

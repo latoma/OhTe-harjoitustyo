@@ -84,7 +84,7 @@ class TestScoreboard(unittest.TestCase):
 
         for dice_values, expected in test_cases:
             self.assertEqual(
-                self.scoreboard.calculate_score("nelosluku", dice_values),
+                self.scoreboard.calculate_score("neliluku", dice_values),
                 expected
             )
 

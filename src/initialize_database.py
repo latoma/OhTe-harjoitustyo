@@ -38,10 +38,8 @@ def create_tables(connection):
 
     connection.commit()
 
-def initialize_database():
-    connection = get_database_connection()
+def initialize_database(test=False):
+    connection = get_database_connection(test)
     drop_tables(connection)
     create_tables(connection)
-
-if __name__ == "__main__":
-    initialize_database()
+    connection.close()

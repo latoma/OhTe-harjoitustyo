@@ -2,7 +2,6 @@ import unittest
 from unittest.mock import Mock
 from repositories.scoreboard_repository import ScoreboardRepository
 
-#LLM generated
 class TestScoreboardRepository(unittest.TestCase):
     def setUp(self):
         self.mock_cursor = Mock()
@@ -10,7 +9,7 @@ class TestScoreboardRepository(unittest.TestCase):
         self.mock_connection.cursor.return_value = self.mock_cursor
         self.scoreboard_repository = ScoreboardRepository(self.mock_connection)
 
-    def test_find_by_game_id_returns_scoreboard_when_exists(self):
+    def test_find_by_game_id_success(self):
         game_id = 1
         expected_scoreboard = (1, "10,20,30", 60)
         self.mock_cursor.fetchone.return_value = expected_scoreboard
@@ -23,7 +22,7 @@ class TestScoreboardRepository(unittest.TestCase):
         )
         self.assertEqual(result, expected_scoreboard)
 
-    def test_find_by_game_id_returns_none_when_not_exists(self):
+    def test_find_by_game_id_fail_is_none(self):
         game_id = 999
         self.mock_cursor.fetchone.return_value = None
 

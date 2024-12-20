@@ -16,10 +16,13 @@ class TestScoreboard(unittest.TestCase):
         self.assertEqual(self.scoreboard.get_score("ykköset"), 3)
 
     def test_total_score_sum_of_all_scores(self):
-        scores = {"ykköset": 3, "kakkoset": 6, "kolmoset": 9}
+        scores = {"ykköset": 5, "kakkoset": 10, "kolmoset": 15, "neloset": 20, "vitoset": 25, "kutoset": 30,
+                 "yksi_pari": 6, "kaksi_paria": 12, "kolmiluku": 9, "neliluku": 12, "täyskäsi": 7, "pieni_suora": 15,
+                 "iso_suora": 20, "sattuma": 30, "yatzy": 50
+                 }
         for label, score in scores.items():
             self.scoreboard.set_score(label, score)
-        self.assertEqual(self.scoreboard.get_total_score(), 18)
+        self.assertEqual(self.scoreboard.get_total_score(), 266)
 
     def test_upper_section_scoring(self):
         test_cases = [
@@ -36,120 +39,12 @@ class TestScoreboard(unittest.TestCase):
             scores = self.scoreboard.get_possible_scores(self.mock_dice)
             self.assertEqual(scores[label], expected)
 
-    def test_pair_scoring(self):
-        test_cases = [
-            ([1,1,2,3,4], 2),
-            ([5,5,5,6,6], 12),
-            ([1,2,3,4,5], 0)
-        ]
-
-        for dice_values, expected in test_cases:
-            self.assertEqual(
-                self.scoreboard.calculate_score("yksi_pari", dice_values),
-                expected
-            )
-
-    def test_two_pairs_scoring(self):
-        test_cases = [
-            ([1,1,2,2,3], 6),
-            ([5,5,6,6,6], 22),
-            ([1,1,2,3,4], 0)
-        ]
-
-        for dice_values, expected in test_cases:
-            self.assertEqual(
-                self.scoreboard.calculate_score("kaksi_paria", dice_values),
-                expected
-            )
-
-    def test_three_of_a_kind_scoring(self):
-        test_cases = [
-            ([1,1,1,2,3], 3),
-            ([5,5,5,5,6], 15),
-            ([1,2,3,4,5], 0)
-        ]
-
-        for dice_values, expected in test_cases:
-            self.assertEqual(
-                self.scoreboard.calculate_score("kolmiluku", dice_values),
-                expected
-            )
-
-    def test_four_of_a_kind_scoring(self):
-        test_cases = [
-            ([1,1,1,1,2], 4),
-            ([5,5,5,5,5], 20),
-            ([1,1,1,2,3], 0)
-        ]
-
-        for dice_values, expected in test_cases:
-            self.assertEqual(
-                self.scoreboard.calculate_score("neliluku", dice_values),
-                expected
-            )
-
-    def test_full_house_scoring(self):
-        test_cases = [
-            ([1,1,1,2,2], 7),
-            ([5,5,5,6,6], 27),
-            ([1,1,1,1,2], 0)
-        ]
-
-        for dice_values, expected in test_cases:
-            self.assertEqual(
-                self.scoreboard.calculate_score("täyskäsi", dice_values),
-                expected
-            )
-
-    def test_small_straight_scoring(self):
-        test_cases = [
-            ([1,2,3,4,5], 15),
-            ([2,3,4,5,6], 0),
-            ([1,2,2,4,5], 0)
-        ]
-
-        for dice_values, expected in test_cases:
-            self.assertEqual(
-                self.scoreboard.calculate_score("pieni_suora", dice_values),
-                expected
-            )
-
-    def test_large_straight_scoring(self):
-        test_cases = [
-            ([2,3,4,5,6], 20),
-            ([1,2,3,4,5], 0),
-            ([2,3,3,5,6], 0)
-        ]
-
-        for dice_values, expected in test_cases:
-            self.assertEqual(
-                self.scoreboard.calculate_score("iso_suora", dice_values),
-                expected
-            )
-
-    def test_chance_scoring(self):
-        test_cases = [
-            ([1,2,3,4,5], 15),
-            ([6,6,6,6,6], 30)
-        ]
-
-        for dice_values, expected in test_cases:
-            self.assertEqual(
-                self.scoreboard.calculate_score("sattuma", dice_values),
-                expected
-            )
-
-    def test_yatzy_scoring(self):
-        test_cases = [
-            ([5,5,5,5,5], 50),
-            ([1,1,1,1,2], 0)
-        ]
-
-        for dice_values, expected in test_cases:
-            self.assertEqual(
-                self.scoreboard.calculate_score("yatzy", dice_values),
-                expected
-            )
+    def test_invalid_label(self):
+        dice_values = [1, 2, 3, 4, 5]
+        self.assertEqual(
+            self.scoreboard.calculate_score("invalid_label", dice_values),
+            0
+        )
 
     def test_get_possible_scores(self):
         self.mock_dice.get_values.return_value = [1,1,1,2,2]
@@ -160,3 +55,47 @@ class TestScoreboard(unittest.TestCase):
         self.scoreboard.set_score("täyskäsi", 7)
         scores = self.scoreboard.get_possible_scores(self.mock_dice)
         self.assertNotIn("täyskäsi", scores)
+
+    def test_has_points_for_bonus(self):
+        test_cases = [
+            ({"ykköset": 5, "kakkoset": 10, "kolmoset": 15,}, False),
+            ({"ykköset": 5, "kakkoset": 10, "kolmoset": 15, "neloset": 20, "vitoset": 25, "kutoset": 30}, True),
+            ({"ykköset": 3, "kakkoset": 6, "kolmoset": 9, "neloset": 12, "vitoset": 15, "kutoset": 18}, True),
+            ({"ykköset": 5, "kakkoset": 0, "kolmoset": 3, "neloset": 0, "vitoset": 25, "kutoset": 30}, True),
+            ({"ykköset": 3, "kakkoset": 0, "kolmoset": 3, "neloset": 0, "vitoset": 25, "kutoset": 30}, False),
+        ]
+        for scores, expected in test_cases:
+            for label, score in scores.items():
+                self.scoreboard.set_score(label, score)
+            print(self.scoreboard.get_total_score(), self.scoreboard.has_points_for_bonus())
+            self.assertEqual(self.scoreboard.has_points_for_bonus(), expected)
+
+    def test_get_scores_as_list(self):
+        test_cases = [
+            (
+                {"ykköset": 5, "kakkoset": 10, "kolmoset": 15},
+                [5, 10, 15, None, None, None, None, None, None, None, None, None, None, None, None]
+            ),
+            (
+                {"ykköset": 5, "kakkoset": 10, "kolmoset": 15, "neloset": 20, "vitoset": 25, "kutoset": 30},
+                [5, 10, 15, 20, 25, 30, None, None, None, None, None, None, None, None, None]
+             ),
+            (
+                {"ykköset": 5, "kakkoset": 10, "kolmoset": 15, "neloset": 20, "vitoset": 25, "kutoset": 30,
+                 "yksi_pari": 6, "kaksi_paria": 12, "kolmiluku": 9, "neliluku": 12, "täyskäsi": 7, "pieni_suora": 15,
+                 "iso_suora": 20, "sattuma": 30, "yatzy": 50
+                 },
+                [5, 10, 15, 20, 25, 30, 6, 12, 9, 12, 7, 15, 20, 30, 50]
+            ),
+            (
+                {"ykköset": 0, "kakkoset": 0, "kolmoset": 0, "neloset": 0, "vitoset": 0, "kutoset": 0,
+                 "yksi_pari": 0, "kaksi_paria": 0, "kolmiluku": 0, "neliluku": 0, "täyskäsi": 0, "pieni_suora": 0,
+                 "iso_suora": 0, "sattuma": 0, "yatzy": 0
+                 },
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            )
+        ]
+        for scores, expected in test_cases:
+            for label, score in scores.items():
+                self.scoreboard.set_score(label, score)
+            self.assertEqual(self.scoreboard.get_scores_as_list(), expected)

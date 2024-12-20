@@ -18,3 +18,12 @@
 - Tehty repositorio-tiedostot pelien ja sen tulosten tallentamiseksi
 - Toteutettu pelin lopetus ja uuden aloittaminen
 - Leaderboard UI:n toteutus, jossa näkyy top 10 tulokset ja niiden yksityiskohdat voi avata uudelle ikkunalle.
+
+# Viikko 7
+- Noppa-animaatio toteutettu
+- Pelaajan nimimerkki syötetään pelin lopuksi ja se näkyy tulostaulukossa
+- Muutoksia nimeämisiin
+- Ohjeiden katselu pelin sisällä
+- Selite-näppäin jokaisella rivillä tuloskortissa
+- Uutta dokumentaatiota
+- Yatzy integraatiotestit

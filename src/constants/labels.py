@@ -13,10 +13,13 @@ LABEL_KEYS = [
 
 INSTRUCTIONS = ["OHJEET:\n"
         "1. Paina 'HEITÄ' heittääksesi noppia. Sinulla on 3 heittoa per vuoro\n"
-        "   - Jokaisen heiton jälkeen voit valita mitkä nopat haluat pitää (pidä-näppäin) ja mitkä heität uudelleen\n"
+        "   - Jokaisen heiton jälkeen voit valita mitkä nopat haluat pitää (pidä-näppäin) "
+        "ja mitkä heität uudelleen\n"
         "2. Kun haluat pisteyttää kierroksen, valitse haluamasi tulos 'valitse'-näppäimellä\n"
-        "3. Kolmannen heiton jälkeen, jokin pisteytys on pakko valita, jolloin myös nolla-pisteet ovat valittavissa (punainen valitse-näppäin)\n"
-        "4. Kun kierroksia on kulunut 15, peli päättyy. Voit tallentaa tuloksen kirjoittamalla nimesi näkyvissä olevaan laatikkoon.\n"
+        "3. Kolmannen heiton jälkeen, jokin pisteytys on pakko valita, "
+        "jolloin myös nolla-pisteet ovat valittavissa (punainen valitse-näppäin)\n"
+        "4. Kun kierroksia on kulunut 15, peli päättyy. "
+        "Voit tallentaa tuloksen kirjoittamalla nimesi näkyvissä olevaan laatikkoon.\n"
         "\n"
         "PISTEYTYSTEN SELITYKSET:\n"
         "Ykköset-Kutoset: Noppien summa, joissa on kyseinen numero\n"
@@ -42,7 +45,8 @@ SCORE_EXPLANATION = {
   'Neloset (20)': 'Neloset: Noppien summa, joissa on numero 4. (Max 20 pistettä)',
   'Vitoset (25)': 'Vitoset: Noppien summa, joissa on numero 5. (Max 25 pistettä)',
   'Kutoset (30)': 'Kutoset: Noppien summa, joissa on numero 6. (Max 30 pistettä)',
-  'Bonus': 'Bonus: Jos yläkerran summa (ykköset -> kutoset) on yhteensä 63p tai enemmän, saat 50 bonus pistettä)',
+  'Bonus': 'Bonus: Jos yläkerran summa (ykköset -> kutoset) on yhteensä 63p tai enemmän, '
+  'saat 50 bonus pistettä)',
   'Yksi pari (12)': 'Yksi pari: Kaksi noppaa, joissa on sama numero. (Max 12 pistettä)',
   'Kaksi paria (22)': 'Kaksi paria: Kaksi erilukuista paria. (Max 22 pistettä)',
   'Kolmiluku (18)': 'Kolmiluku: Kolme noppaa, joissa on sama numero. (Max 18 pistettä)',

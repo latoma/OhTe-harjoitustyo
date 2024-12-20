@@ -12,8 +12,12 @@
 |  5.12 |    2 |  Pelilogiikan yksityikohtien hiomista (bonuspisteet, noppien väärinkäytön esto)
 |  9.12 |    4 |  Test moden toteutus, tietokannan käyttöönoton alustus.
 | 10.12 |    9 |  Pelin lopetus ja uuden aloittaminen, sekä Leaderboard UI:n ja scoreboard repon toteutus, dokumentointi
+| 16.12 |    5 |  Noppien animaatio + synkronointi tuloskortin kanssa. Pelaajan nimen kysyminen pelin lopuksi. Ulkoasu muutoksia.
+| 19.12 |    5 | Sovelluksen sisäisen laadun parantelua, testien tekemistä, dokumentaatiota
+| 20.12 |    2 | Testaamisen parantelua, dokumentointia, sovelluksen viimeistelyä
 
-**Yhteensä** **40** **tuntia**
+
+**Yhteensä** **52** **tuntia**
 
 
 

@@ -14,6 +14,8 @@ Yatzy.py on vastuussa pelin kulusta ja moduulien välisestä yhteistoiminnasta, 
 
 ## Testikattavuus
 ```bash
+# (databases are initialized with python3 ./src/initialize_database.py)
 poetry run invoke coverage-report
 ```
-![Screenshot 2024-12-20 191100](https://github.com/user-attachments/assets/c4dbfb9f-7e21-474d-a499-7c857b68dc45)
+
+![Screenshot 2024-12-21 154817](https://github.com/user-attachments/assets/26ae45ea-6829-4a0f-a0dc-4651f4449c41)

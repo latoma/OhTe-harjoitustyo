@@ -9,6 +9,7 @@ Kyseessä on tietokoneella pelattava yksinpeli versio tunnetusta Yatzy-noppapeli
 ### Dokumentaatio
 - [Arkkitehtuuri](./dokumentaatio/arkkitehtuuri.md)
 - [Vaatimusmäärittely](./dokumentaatio/vaatimusmäärittely.md)
+- [Testaus](./dokumentaatio/testaus.md)
 - [Työaikakirjanpito](./dokumentaatio/tuntikirjanpito.md)
 - [Changelog](./dokumentaatio/changelog.md)
 
@@ -37,7 +38,7 @@ poetry run invoke start
 ```bash
 poetry run invoke start-test-mode
 ```
-(Testi tilassa heitoja on loputtomasti ja pelin voi pisteyttää halutessaan. Helpottaa ominaisuuksien testaamista)
+(Testi tilassa heitoja on loputtomasti ja pelin voi pisteyttää keskeneräisenä. Helpottaa ominaisuuksien testaamista)
 
 
 ### Testaus

@@ -14,7 +14,7 @@ class TestGameRepository(unittest.TestCase):
         self.game_repository.find_all()
 
         self.mock_cursor.execute.assert_called_once_with(
-            "SELECT * FROM games ORDER BY total_score DESC"
+            "SELECT * FROM game ORDER BY total_score DESC"
         )
         self.mock_cursor.fetchall.assert_called_once()
 
@@ -27,7 +27,7 @@ class TestGameRepository(unittest.TestCase):
         result = self.game_repository.create(test_player_name, test_score)
 
         self.mock_cursor.execute.assert_called_once_with(
-            "INSERT INTO games (player_name, total_score) VALUES (?, ?)",
+            "INSERT INTO game (player_name, total_score) VALUES (?, ?)",
             (test_player_name, test_score)
         )
         self.mock_connection.commit.assert_called_once()
@@ -42,7 +42,7 @@ class TestGameRepository(unittest.TestCase):
         result = self.game_repository.create(test_player_name, test_score)
 
         self.mock_cursor.execute.assert_called_once_with(
-            "INSERT INTO games (player_name, total_score) VALUES (?, ?)",
+            "INSERT INTO game (player_name, total_score) VALUES (?, ?)",
             (test_player_name[:10], test_score)
         )
         self.mock_connection.commit.assert_called_once()

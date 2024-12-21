@@ -21,11 +21,10 @@ class ScoreboardRepository:
         """
         cursor = self._connection.cursor()
         scores = ','.join(str(score) for score in scoreboard.get_scores_as_list())
-        total_score = scoreboard.get_total_score()
 
         cursor.execute(
-            "INSERT INTO scoreboards (game_id, scores, total_score) VALUES (?, ?, ?)",
-            (game_id, scores, total_score)
+            "INSERT INTO scoreboard (game_id, scores) VALUES (?, ?)",
+            (game_id, scores)
         )
         self._connection.commit()
         return cursor.lastrowid
@@ -38,7 +37,7 @@ class ScoreboardRepository:
         """
         cursor = self._connection.cursor()
         cursor.execute(
-            "SELECT * FROM scoreboards WHERE game_id = ?",
+            "SELECT * FROM scoreboard WHERE game_id = ?",
             (game_id,)
         )
         return cursor.fetchone()

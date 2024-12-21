@@ -4,11 +4,11 @@ def drop_tables(connection):
     cursor = connection.cursor()
 
     cursor.execute('''
-      DROP TABLE IF EXISTS games;
+      DROP TABLE IF EXISTS game;
     ''')
 
     cursor.execute('''
-      DROP TABLE IF EXISTS scoreboards;
+      DROP TABLE IF EXISTS scoreboard;
     ''')
 
     connection.commit()
@@ -17,7 +17,7 @@ def create_tables(connection):
     cursor = connection.cursor()
 
     cursor.execute('''
-        CREATE TABLE games (
+        CREATE TABLE game (
             id INTEGER PRIMARY KEY,
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
             player_name VARCHAR(10),
@@ -26,7 +26,7 @@ def create_tables(connection):
     ''')
 
     cursor.execute('''
-        CREATE TABLE scoreboards (
+        CREATE TABLE scoreboard (
             id INTEGER PRIMARY KEY,
             game_id INTEGER,
             scores TEXT,
@@ -36,15 +36,20 @@ def create_tables(connection):
 
     connection.commit()
 
-def initialize_database(test=False):
-    connection = get_database_connection(test)
+def initialize_database():
+    connection = get_database_connection()
     drop_tables(connection)
     create_tables(connection)
     connection.close()
-    if test:
-        print("Test database initialized")
-    else:
-        print("Database initialized")
+    print("Database initialized")
+
+def initialize_test_database():
+    connection = get_database_connection(test=True)
+    drop_tables(connection)
+    create_tables(connection)
+    connection.close()
+    print("Test database initialized")
 
 if __name__ == "__main__":
     initialize_database()
+    initialize_test_database()

@@ -15,7 +15,7 @@ class GameRepository:
     def find_all(self):
         """ Hakee kaikki pelit ja järjestää ne kokonaispisteiden mukaan laskevaan järjestykseen """
         cursor = self._connection.cursor()
-        cursor.execute("SELECT * FROM games ORDER BY total_score DESC")
+        cursor.execute("SELECT * FROM game ORDER BY total_score DESC")
         return cursor.fetchall()
 
     def create(self, player_name, total_score):
@@ -31,7 +31,7 @@ class GameRepository:
             player_name = player_name[:10]
 
         cursor.execute(
-            "INSERT INTO games (player_name, total_score) VALUES (?, ?)",
+            "INSERT INTO game (player_name, total_score) VALUES (?, ?)",
             (player_name ,total_score)
         )
         self._connection.commit()

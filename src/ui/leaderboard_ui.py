@@ -170,7 +170,7 @@ class LeaderboardUI:
 
       Label(
           scores_frame,
-          text=str(scoreboard_data['total_score']),
+          text=str(game['total_score']),
           font=("TkDefaultFont", 12, "bold"),
           bg="white",
           width=8,

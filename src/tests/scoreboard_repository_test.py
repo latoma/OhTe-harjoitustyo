@@ -17,7 +17,7 @@ class TestScoreboardRepository(unittest.TestCase):
         result = self.scoreboard_repository.find_by_game_id(game_id)
 
         self.mock_cursor.execute.assert_called_once_with(
-            "SELECT * FROM scoreboards WHERE game_id = ?",
+            "SELECT * FROM scoreboard WHERE game_id = ?",
             (game_id,)
         )
         self.assertEqual(result, expected_scoreboard)
@@ -29,7 +29,7 @@ class TestScoreboardRepository(unittest.TestCase):
         result = self.scoreboard_repository.find_by_game_id(game_id)
 
         self.mock_cursor.execute.assert_called_once_with(
-            "SELECT * FROM scoreboards WHERE game_id = ?",
+            "SELECT * FROM scoreboard WHERE game_id = ?",
             (game_id,)
         )
         self.assertIsNone(result)
@@ -45,8 +45,8 @@ class TestScoreboardRepository(unittest.TestCase):
       result = self.scoreboard_repository.create(game_id, mock_scoreboard)
 
       self.mock_cursor.execute.assert_called_once_with(
-          "INSERT INTO scoreboards (game_id, scores, total_score) VALUES (?, ?, ?)",
-          (game_id, "10,20,30", 60)
+          "INSERT INTO scoreboard (game_id, scores) VALUES (?, ?)",
+          (game_id, "10,20,30")
       )
       self.mock_connection.commit.assert_called_once()
       self.assertEqual(result, expected_id)

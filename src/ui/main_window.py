@@ -55,7 +55,7 @@ class MainWindow(Tk):
         """ Näyttää ohjeet uudessa ikkunassa """
         instructions_window = Toplevel(self)
         instructions_window.title("Ohjeet")
-        instructions_window.geometry("600x400")
+        instructions_window.geometry("750x400")
         instructions_text = Text(instructions_window, wrap="word")
         instructions_text.insert("1.0", "\n".join(INSTRUCTIONS))
         instructions_text.config(state=DISABLED)

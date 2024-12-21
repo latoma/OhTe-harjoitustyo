@@ -47,9 +47,7 @@ class Yatzy:
         )
 
         if test_mode:
-            self.main_window.set_save_score_command(
-                lambda: self.end_game()
-            )
+            self.main_window.set_save_score_command(self.end_game)
 
     def start(self):
         self.main_window.mainloop()
@@ -81,8 +79,10 @@ class Yatzy:
         self.dice.roll_dice()
 
         self.throws_left -= 1
-        if self.test_mode:
+
+        if self.test_mode: # In test mode, there's endless throws
             self.throws_left += 1
+
         self.main_window.update_throws_left(self.throws_left)
 
         def after_animation():
@@ -103,6 +103,7 @@ class Yatzy:
                 self.__dice_ui.update_hold_buttons()
 
         if self.test_mode:
+            self.__dice_ui.update_display()
             after_animation()
         else:
             self.__dice_ui.animate_roll(after_animation)
@@ -171,5 +172,5 @@ class Yatzy:
             relief="raised",
         )
 
-        self.__scoreboard_ui.render_score_options(self.dice)
+        self.__scoreboard_ui.render_score_options(self.scoreboard.get_possible_scores(self.dice))
         self.round = 1

@@ -16,9 +16,10 @@ Sovellus koostuu yhdestä päänäkymästä, jossa pelaaja voi heittää noppia,
 - (TEHTY) Pelaaja heittäää uudestaan ja valitsee taas nopat joita ei heitetä
 - (TEHTY) Pelaaja näkee pistetaulukossa pisteytysvaihtoehdot joka heiton jälkeen.
 - (TEHTY) Kolmannen kierroksen (tai aikaisemman) jälkeen pelaaja valitsee pistetaulukosta pisteytysvaihtoehdon.
-- (TEHTY) Pelin päätyttyä pelaajalta kysytään nimi ja hänen tuloksensa tallennetaan. Tulos tulee näkyviin top 10 taulukoon jos pisteet ovat riittävät.
-- (TEHTY) Pelaaja voi aloittaa uuden pelin
+- (TEHTY) Pelin päätyttyä pelaajalta kysytään nimi ja hänen tuloksensa tallennetaan.
+- (TEHTY) Parhaat utlokset näytetään top-10 taulukossa.
 - (TEHTY) Highscore-taulukosta voi avata tuloksen tarkemmat tiedot.
+- (TEHTY) Pelaaja voi aloittaa uuden pelin
 
 ## Jatkokehitysideoita
 - Peliä voi pelata useamman pelaajan kanssa

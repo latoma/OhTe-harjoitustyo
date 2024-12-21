@@ -15,9 +15,11 @@
 | 16.12 |    5 |  Noppien animaatio + synkronointi tuloskortin kanssa. Pelaajan nimen kysyminen pelin lopuksi. Ulkoasu muutoksia.
 | 19.12 |    5 | Sovelluksen sisäisen laadun parantelua, testien tekemistä, dokumentaatiota
 | 20.12 |    2 | Testaamisen parantelua, dokumentointia, sovelluksen viimeistelyä
+| 21.12 |    5 | Bugi fixausta, dokumentointia, pieniä laadun parannuksia, loppupalautus-releasen valmistelu ja julkaisu
 
 
-**Yhteensä** **52** **tuntia**
+
+**Yhteensä** **57** **tuntia**
 
 
 

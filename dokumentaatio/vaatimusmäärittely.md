@@ -7,7 +7,7 @@ Kyseessä on tietokoneella pelattava yksinpeliversio Yatzy-pelistä. Käyttäjä
 Sovelluksessa on ainoastaan yhdenlainen käyttäjä: pelaaja.
 
 ## Käyttöliittymäluonnos
-Sovellus koostuu yhdestä päänäkymästä, jossa pelaaja voi heittää noppia, tehdä valintoja tuloskorttiin, tarkastella pelin ohjeita, sekä tarkastella top 10 tuloksia.
+Sovellus koostuu yhdestä päänäkymästä, jossa pelaaja voi heittää noppia, tehdä valintoja tulostaulukkoon, tarkastella pelin ohjeita, sekä tarkastella top 10 tuloksia.
 
 ## Perusversion tarjoama toiminnallisuus
 - (TEHTY) Pelaaja voi avata pelin käyttöohjeet "Peliohjeet"-napista

@@ -1,5 +1,8 @@
 # Architecture
-Pelin kulusta vastaa Yatzy.py joka kommunikoi pelilogiikka-moduulien sekä tietokanta repositorioiden kanssa.
+Yatzy-luokka vastaa pelin kulusta, käyttöliittymän hallinnasta ja luokkien välisestä toiminnallisuudesta.
+Yatzyn konstruktorissa alustetaan tietokanta, pelilogiikan moduulit ja niiden käyttöliittymät.
+Yatzy sisältää metodeina pelin päätoiminnot, jotka ovat: noppien heitto (roll_dice), tuloksen valitseminen (select_score), pelin loppuminen (end_game) ja uuden pelin aloittaminen (start_new_game).
+Tuloksen valitsemisen yhteydessä tarkistetaan onko 15 kierrosta tullut täyteen, jolloin peli päättyy. Tällöin kutsuttava metodi (end_game) vastaa nimimerkin kysymisestä ja tuloksen tallentamisesta tietokantaan-
 ```mermaid
 classDiagram
     Yatzy "1" --> "1" Dice
@@ -56,12 +59,13 @@ classDiagram
 
 ## Käyttöliittymä
 
+Käyttöliittymä koostuu yhdestä pääikkunasta jossa on näkyvissä nopat, tulostaulu, näiden painikkeet, sekä top 10 tulokset.
+
 Nopilla (Dice) ja tulostaululla (Scoreboard) on omat erilliset käyttöliittymä tiedostot Dice_ui.py ja Scoreboard_ui.py, jotka löytyvät /ui kansiosta. Näiden lisäksi sieltä löytyy leaderboard_ui.py joka vastaa parhaan 10 tuloksen lista-näkymästä.
 
 Main_window.py tiedosto vastaa pääikkunan perusrakenteen lisäksi sellaisista ui-komponenttien määrittelemisistä, jotka vaativat kommunikointia useamman moduulin kanssa. Esimerkiksi 'valitse'-näppäimet määritellään main_window:ssa, koska niiden painaminen tekee muutoksia sekä Scoreboard_ui:hin että Dice_ui:hin.
 
-Käyttöliittymän yhdistämisesta pelilogiikkaan vastaa Yatzy.py, joka on tekemisissä kaikkien käyttöliittymäkomponenttien kanssa ja vastaa pelin päätoiminnoista kuten heittämisestä, tuloksen valitsemisesta ja pelin loppumisesta. Myös aikaisemmin mainittujen main_window:n ui-komponenttien toiminnalisuus määritellään Yatzy.py:ssa
-
+Käyttöliittymän yhdistämisesta pelilogiikan kanssa vastaa Yatzy-luokka. Myös aikaisemmin mainittujen main_window:n ui-komponenttien toiminnalisuus määritellään Yatzy:ssa
 
 
 ### Käyttöliittymän rakenne
@@ -119,18 +123,34 @@ classDiagram
 
 
 ## Tietokannan rakenne
-Pelien tiedot tallennetaan SQLite-tietokantaan käyttäen repository suunnittelumallia. Sisältää kaksi taulua: games ja scoreboards:
-- games: tallennetaan pelien perustiedot (nimimerkki, kokonaispisteet, aika)
+Pelien tiedot tallennetaan SQLite-tietokantaan käyttäen repository suunnittelumallia. Sovelluksella on käytössä kaksi taulua: games ja scoreboards:
+- games: tallennetaan pelien perustiedot (nimimerkki, kokonaispisteet, ajankohta)
 - scoreboards: tallennetaan yksittäisen pelin tarkemmat pisteytystiedot.
 - GameRepository: pelien tallennus/haku
 - ScoreboardRepository: pistetaulukoiden tallennus/haku
 
-Peli tallennetaan ensin games-tauluun ja
+Päättynyt peli tallennetaan ensin games-tauluun ja
 saatu ID käytetään scoreboards-taulussa viiteavaimena.
-Aikaleimat generoituu automaattisesti
 
-## Pelin toiminta-esimerkki (Sekvenssikaavio)
-Nopan heitto ja sen pisteytys.
+
+```mermaid
+ classDiagram
+      Game "1" --> "1" Scoreboard
+      class Game{
+          id
+          player_name
+          total_score
+          timestamp
+      }
+      class Scoreboard{
+          id
+          game_id ( FK )
+          scores
+      }
+```
+
+## Pelin toiminta-esimerkkejä
+### Noppien heitto ja tulosvaihtoehtojen lasku ja valinta
 ```mermaid
 sequenceDiagram
     participant Y as Yatzy
@@ -142,6 +162,7 @@ sequenceDiagram
     D->>Die: roll()
     Die-->>D: new value
     D-->>Y: dice rolled
+    Y->>Y: throws_left -= 1
 
     Y->>S: get_possible_scores(dice)
     S->>D: get_values()
@@ -149,7 +170,5 @@ sequenceDiagram
     S->>S: calculate_score()
     S-->>Y: possible scores
 
-    Y->>S: set_score(label, score)
-    S->>S: update scores
-
+    Y ->> S: set_score(label, score)
 ```

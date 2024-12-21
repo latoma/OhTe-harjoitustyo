@@ -25,6 +25,10 @@ class Scoreboard:
             if score is None:
                 continue
             total_score += score
+
+        if self.has_points_for_bonus():
+            total_score += 50
+
         return total_score
 
     def get_possible_scores(self, dice):
@@ -116,3 +120,6 @@ class Scoreboard:
 
     def get_scores_as_list(self):
         return [self.__scores[label] for label in LABEL_KEYS]
+
+    def reset(self):
+        self.__scores = {label: None for label in LABEL_KEYS}

@@ -27,7 +27,7 @@ class MainWindow(Tk):
         self.instructions_button.grid(row=1, column=5, columnspan=2, pady=10)
 
         #Roll button
-        self.roll_button = Button(self, text="Heitä nopat", font=("TkDefaultFont", 12))
+        self.roll_button = Button(self, text="Heitä nopat", bg="lightgray", font=("TkDefaultFont", 12))
         self.roll_button.grid(row=2, column=2, pady=10)
 
         # Throws left label
@@ -123,3 +123,12 @@ class MainWindow(Tk):
 
     def update_throws_left(self, throws):
         self.throws_left_label.config(text=f"Heittoja: {throws}")
+
+    def reset_select_button_appearence(self):
+        for button in self.select_buttons:
+            button.config(
+                text="",
+                state=DISABLED,
+                relief="flat",
+                bg="white"
+                )

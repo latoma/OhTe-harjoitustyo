@@ -22,7 +22,7 @@ class TestScoreboard(unittest.TestCase):
                  }
         for label, score in scores.items():
             self.scoreboard.set_score(label, score)
-        self.assertEqual(self.scoreboard.get_total_score(), 266)
+        self.assertEqual(self.scoreboard.get_total_score(), 316)
 
     def test_upper_section_scoring(self):
         test_cases = [

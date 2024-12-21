@@ -164,3 +164,13 @@ class ScoreboardUI:
         for button in self.root.select_buttons:
             button.config(state=DISABLED, bg="white")
         self.selection_disabled = True
+
+    def reset(self):
+        for label in self.score_labels:
+            label.config(text="", relief="groove", font=("TkDefaultFont", 12))
+        for button in self.root.select_buttons:
+            button.config(state=DISABLED, bg="white")
+            button.grid()
+        self.bonus_label.config(text="-")
+        self.total_score_label.config(text="-")
+        self.selection_disabled = True

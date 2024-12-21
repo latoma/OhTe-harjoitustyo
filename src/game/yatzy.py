@@ -28,13 +28,17 @@ class Yatzy:
             self.main_window,
             self.game_repository,
             self.scoreboard_repository
-            )
+        )
 
         self.dice = Dice()
         self.__dice_ui = DiceUI(self.main_window, self.dice)
 
         self.scoreboard = Scoreboard()
-        self.__scoreboard_ui = ScoreboardUI(self.main_window, self.scoreboard, test_mode)
+        self.__scoreboard_ui = ScoreboardUI(
+            self.main_window,
+            self.scoreboard,
+            test_mode
+        )
 
         self.main_window.set_roll_command(self.roll_dice)
 
@@ -78,6 +82,13 @@ class Yatzy:
         self.__scoreboard_ui.disable_select_buttons()
         self.dice.roll_dice()
 
+        # Deactivate roll button during animation
+        self.main_window.roll_button.config(
+            state="disabled",
+            relief="sunken",
+            bg="lightgray"
+        )
+
         self.throws_left -= 1
 
         if self.test_mode: # In test mode, there's endless throws
@@ -86,6 +97,16 @@ class Yatzy:
         self.main_window.update_throws_left(self.throws_left)
 
         def after_animation():
+            # If last throw, lock dice and keep roll button disabled
+            if self.throws_left <= 0:
+                self.dice.lock_dice()
+                self.__dice_ui.update_hold_buttons()
+            else:
+                self.main_window.roll_button.config(
+                    state="normal",
+                    relief="raised",
+                    bg="lightgray"
+                )
             self.__scoreboard_ui.enable_select_buttons()
             possible_scores = self.scoreboard.get_possible_scores(self.dice)
             self.__scoreboard_ui.render_score_options(
@@ -93,29 +114,12 @@ class Yatzy:
                 last_throw=self.throws_left == 0 or self.test_mode
             )
 
-            if self.throws_left == 0:
-                self.main_window.roll_button.config(
-                    state="disabled",
-                    relief="sunken",
-                    bg="lightgray"
-                )
-                self.dice.lock_dice()
-                self.__dice_ui.update_hold_buttons()
 
         if self.test_mode:
             self.__dice_ui.update_display()
             after_animation()
         else:
             self.__dice_ui.animate_roll(after_animation)
-
-        if self.throws_left == 0:
-            self.main_window.roll_button.config(
-                state="disabled",
-                relief="sunken",
-                bg="lightgray"
-            )
-            self.dice.lock_dice()
-            self.__dice_ui.update_hold_buttons()
 
 
     def select_score(self, label):
@@ -153,14 +157,15 @@ class Yatzy:
             game_id = self.game_repository.create(player_name, total_score)
             self.scoreboard_repository.create(game_id, self.scoreboard)
             self.__leaderboard_ui.update_scores()
-            self.main_window.create_new_game_button(self.start_new_game)
+        self.main_window.create_new_game_button(self.start_new_game)
 
     def start_new_game(self):
         """ Aloittaa uuden pelin """
         self.main_window.remove_new_game_button()
+        self.main_window.reset_select_button_appearence()
 
-        self.scoreboard = Scoreboard()
-        self.__scoreboard_ui = ScoreboardUI(self.main_window, self.scoreboard, self.test_mode)
+        self.scoreboard.reset()
+        self.__scoreboard_ui.reset()
 
         self.dice = Dice()
         self.__dice_ui = DiceUI(self.main_window, self.dice)
@@ -172,5 +177,8 @@ class Yatzy:
             relief="raised",
         )
 
-        self.__scoreboard_ui.render_score_options(self.scoreboard.get_possible_scores(self.dice))
+        self.main_window.set_select_commands(
+            lambda key: lambda: self.select_score(key)
+        )
+
         self.round = 1

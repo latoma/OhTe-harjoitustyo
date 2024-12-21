@@ -1,8 +1,5 @@
 import unittest
-from unittest.mock import patch
 from game.yatzy import Yatzy
-from database_connection import get_database_connection
-
 
 class TestYatzyIntegration(unittest.TestCase):
     def setUp(self):
@@ -58,10 +55,4 @@ class TestYatzyIntegration(unittest.TestCase):
         self.assertEqual(self.yatzy.throws_left, 3)
 
     def tearDown(self):
-        connection = get_database_connection(test=True)
-        cursor = connection.cursor()
-        cursor.execute("DELETE FROM scoreboards")
-        cursor.execute("DELETE FROM games")
-        connection.commit()
-        connection.close()
         self.yatzy.main_window.destroy()

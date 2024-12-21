@@ -70,7 +70,7 @@ class LeaderboardUI:
       # Header
       Label(
           detail_window,
-          text=f"{game["player_name"]}, {game['total_score']} pistettä",
+          text=f"{game['player_name']}, {game['total_score']} pistettä",
           font=("TkDefaultFont", 12, "bold"),
           bg="white",
           pady=10
@@ -79,7 +79,7 @@ class LeaderboardUI:
       # Date played
       Label(
           detail_window,
-          text=f"Pelattu: {game["timestamp"]}",
+          text=f"Pelattu: {game['timestamp']}",
           font=("TkDefaultFont", 10),
           bg="white",
           pady=5
@@ -178,11 +178,6 @@ class LeaderboardUI:
           borderwidth=1
       ).grid(row=row, column=1, padx=5, pady=10)
 
-      # Center the window
-      self.root.update_idletasks()
-      x = self.root.winfo_x() + (self.root.winfo_width() // 2) - (detail_window.winfo_reqwidth() // 2)
-      y = self.root.winfo_y() + (self.root.winfo_height() // 2) - (detail_window.winfo_reqheight() // 2)
-      detail_window.geometry(f"+{x}+{y}")
 
     def update_scores(self):
         """ Päivittää tulostaulun """

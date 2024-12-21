@@ -21,8 +21,8 @@ class TestYatzyIntegration(unittest.TestCase):
         new_scores = self.yatzy.scoreboard.get_possible_scores(self.yatzy.dice)
         self.assertNotEqual(initial_scores, new_scores)
 
-        # Hold first die
-        self.yatzy.dice.get_dice()[0].toggle_hold_status()
+        self.yatzy.dice.get_dice()[0].toggle_hold_status() # Hold first die
+        held_value = self.yatzy.dice.get_dice()[0].get_value()
 
         # Second roll
         self.yatzy.roll_dice()
@@ -33,10 +33,13 @@ class TestYatzyIntegration(unittest.TestCase):
         # Third and last roll
         self.yatzy.roll_dice()
 
+        # Check that roll button is disabled
         self.assertEqual(self.yatzy.throws_left, 0)
         self.assertEqual(self.yatzy.main_window.roll_button['state'], 'disabled')
-        for die in self.yatzy.dice.get_dice():
-            self.assertEqual(die.is_locked(), True)
+
+        # Check that die is still held with the same value
+        self.assertTrue(self.yatzy.dice.get_dice()[0].in_hold())
+        self.assertEqual(self.yatzy.dice.get_values()[0], held_value)
 
     def test_select_score_integration(self):
         self.yatzy.roll_dice()

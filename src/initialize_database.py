@@ -30,8 +30,6 @@ def create_tables(connection):
             id INTEGER PRIMARY KEY,
             game_id INTEGER,
             scores TEXT,
-            total_score INTEGER,
-            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (game_id) REFERENCES games(id)
         )
     ''')
@@ -43,3 +41,10 @@ def initialize_database(test=False):
     drop_tables(connection)
     create_tables(connection)
     connection.close()
+    if test:
+        print("Test database initialized")
+    else:
+        print("Database initialized")
+
+if __name__ == "__main__":
+    initialize_database()

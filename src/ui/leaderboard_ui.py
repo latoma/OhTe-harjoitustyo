@@ -48,16 +48,16 @@ class LeaderboardUI:
         self.score_buttons = []
         self.update_scores()
 
-    def show_game_details(self, game_id, player_name, timestamp):
+    def show_game_details(self, game):
       """ Näyttää pelin tulokset erillisessä ikkunassa
 
       Args:
           game_id: pelin id
           player_name: pelaajan nimi
       """
-      scoreboard_data = self.scoreboard_repository.find_by_game_id(game_id)
+      scoreboard_data = self.scoreboard_repository.find_by_game_id(game["id"])
       if not scoreboard_data:
-          print("No scoreboard data found for game", game_id)
+          print("No scoreboard data found for game", game["id"])
           return
 
       detail_window = Toplevel(self.root)
@@ -67,10 +67,10 @@ class LeaderboardUI:
       # Convert scores string back to list
       scores = scoreboard_data['scores'].split(',')
 
-      # Create header
+      # Header
       Label(
           detail_window,
-          text=f"{player_name}, {scoreboard_data['total_score']} pistettä",
+          text=f"{game["player_name"]}, {game['total_score']} pistettä",
           font=("TkDefaultFont", 12, "bold"),
           bg="white",
           pady=10
@@ -79,7 +79,7 @@ class LeaderboardUI:
       # Date played
       Label(
           detail_window,
-          text=f"Pelattu: {timestamp}",
+          text=f"Pelattu: {game["timestamp"]}",
           font=("TkDefaultFont", 10),
           bg="white",
           pady=5
@@ -178,6 +178,7 @@ class LeaderboardUI:
           borderwidth=1
       ).grid(row=row, column=1, padx=5, pady=10)
 
+      # Center the window
       self.root.update_idletasks()
       x = self.root.winfo_x() + (self.root.winfo_width() // 2) - (detail_window.winfo_reqwidth() // 2)
       y = self.root.winfo_y() + (self.root.winfo_height() // 2) - (detail_window.winfo_reqheight() // 2)
@@ -260,8 +261,8 @@ class LeaderboardUI:
                     self.score_frame,
                     text="Näytä",
                     font=("TkDefaultFont", 9),
-                    command=lambda g_id=game_id, p_name=player_name, ts=timestamp:
-                        self.show_game_details(g_id, p_name, ts)
+                    command=lambda game=games[i-1]:
+                        self.show_game_details(game)
                 )
                 button.grid(row=i, column=3, padx=5)
                 self.score_buttons.append(button)

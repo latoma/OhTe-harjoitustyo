@@ -38,7 +38,7 @@ poetry run invoke start
 ```bash
 poetry run invoke start-test-mode
 ```
-(Testi tilassa heitoja on loputtomasti ja pelin voi pisteyttää keskeneräisenä. Helpottaa ominaisuuksien testaamista)
+(Testi tilassa heittoja on loputtomasti, nopilla ei ole animaatiota ja pelin voi pisteyttää keskeneräisenä. Helpottaa ominaisuuksien testaamista)
 
 
 ### Testaus

@@ -14,7 +14,7 @@ class MainWindow(Tk):
         super().__init__()
         self.configure(bg="white")
         self.title("Yatzy")
-        self.geometry("900x700")
+        self.geometry("1000x800")
 
         # Game title
         self.__game_title_label = Label(self, text='Yatzy!', font="lucida 40 bold italic", foreground='yellow', bg='magenta')
@@ -55,7 +55,7 @@ class MainWindow(Tk):
         """ Näyttää ohjeet uudessa ikkunassa """
         instructions_window = Toplevel(self)
         instructions_window.title("Ohjeet")
-        instructions_window.geometry("750x400")
+        instructions_window.geometry("800x500")
         instructions_text = Text(instructions_window, wrap="word")
         instructions_text.insert("1.0", "\n".join(INSTRUCTIONS))
         instructions_text.config(state=DISABLED)
